@@ -1,9 +1,11 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  output: "export",
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: "export", // for static export
   basePath: "/Portfolio",
-  images: { unoptimized: true },
+  assetPrefix: "/Portfolio/",
+  images: {
+    unoptimized: true, // since GH Pages doesn't support Next Image optimization
+  },
 };
 
 export default nextConfig;

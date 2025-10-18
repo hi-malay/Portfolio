@@ -5,9 +5,10 @@
   "homepage": "https://hi-malay.github.io/Portfolio",
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build --turbopack && next export",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "deploy": "npm run build && gh-pages -d out"
   },
   "dependencies": {
     "framer-motion": "^12.23.24",
