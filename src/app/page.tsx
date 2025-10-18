@@ -13,9 +13,6 @@ import {
   Rocket,
   Book,
 } from "lucide-react";
-import portfolio_image_one from "../../public/portfolio1.jpeg";
-import portfolio_image_two from "../../public/portfolio2.jpeg";
-import portfolio_image_three from "../../public/portfolio3.jpeg";
 
 export default function Portfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -66,7 +63,7 @@ export default function Portfolio() {
       if (!element) {
         element = document.createElement("meta");
         Object.entries(tag).forEach(([key, value]) => {
-          element.setAttribute(key, value);
+          element?.setAttribute(key, value);
         });
         document.head.appendChild(element);
       }
