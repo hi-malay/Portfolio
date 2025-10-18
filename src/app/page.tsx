@@ -707,7 +707,7 @@ export default function Portfolio() {
               viewport={{ once: true }}
               className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
             >
-              I'm always interested in hearing about new projects and
+              I&apos;m always interested in hearing about new projects and
               opportunities.
             </motion.p>
             <motion.div
