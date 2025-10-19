@@ -452,7 +452,7 @@ export default function Portfolio() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-4xl font-bold mb-16 text-center"
         >
           Professional Experience
@@ -461,7 +461,7 @@ export default function Portfolio() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="space-y-12"
         >
           {experiences.map((exp, idx) => {
@@ -482,7 +482,7 @@ export default function Portfolio() {
                     whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
                     whileHover={{ scale: 1.05, rotate: 2 }}
                     transition={{ duration: 0.8 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.2 }}
                     className="rounded-xl shadow-2xl w-full object-cover h-80"
                   />
                 </div>
@@ -492,14 +492,14 @@ export default function Portfolio() {
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false, amount: 0.2 }}
                     className="bg-gradient-to-r from-slate-800/50 to-slate-700/50 border border-slate-600 rounded-xl p-8 hover:border-cyan-400/50 transition"
                   >
                     <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.6 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false, amount: 0.2 }}
                       className="flex items-center gap-4 mb-4"
                     >
                       <motion.div
@@ -534,7 +534,7 @@ export default function Portfolio() {
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       transition={{ duration: 0.6, delay: 0.3 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false, amount: 0.2 }}
                       className="text-slate-300 mb-4 pb-4 border-b border-slate-600 text-sm leading-relaxed"
                     >
                       {exp.description}
@@ -570,7 +570,7 @@ export default function Portfolio() {
                       initial={{ opacity: 0 }}
                       whileInView={{ opacity: 1 }}
                       transition={{ duration: 0.6, delay: 0.4 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: false, amount: 0.2 }}
                       className="flex flex-wrap gap-2 pt-4 border-t border-slate-600"
                     >
                       {exp.technologies?.map((tech, i) => (
@@ -600,7 +600,7 @@ export default function Portfolio() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-4xl font-bold mb-16 text-center"
         >
           Technical Skills
@@ -609,7 +609,7 @@ export default function Portfolio() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {skills.map((skillGroup, idx) => (
@@ -626,7 +626,7 @@ export default function Portfolio() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 className="text-xl font-bold text-cyan-400 mb-4"
               >
                 {skillGroup.category}
@@ -635,7 +635,7 @@ export default function Portfolio() {
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: false, amount: 0.2 }}
                 className="flex flex-wrap gap-2"
               >
                 {skillGroup.items.map((skill, i) => (
@@ -674,7 +674,7 @@ export default function Portfolio() {
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="bg-gradient-to-br from-slate-800 to-slate-700 border border-slate-600 rounded-2xl p-12 text-center relative overflow-hidden"
         >
           <motion.div
@@ -695,7 +695,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               className="text-4xl font-bold mb-6"
             >
               Let&apos;s Work Together
@@ -704,7 +704,7 @@ export default function Portfolio() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
             >
               I&apos;m always interested in hearing about new projects and
@@ -714,7 +714,7 @@ export default function Portfolio() {
               variants={containerVariants}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               className="flex justify-center gap-8 flex-wrap"
             >
               <motion.a
@@ -769,7 +769,7 @@ export default function Portfolio() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         className="py-8 px-4 text-center text-slate-400 border-t border-slate-700"
       >
         <motion.p
