@@ -197,9 +197,36 @@ export default function Portfolio() {
 
   const experiences = [
     {
+      company: "Uber",
+      role: "Software Engineer",
+      period: "09/2024 - 11/2024",
+      icon: Rocket,
+      location: "Bangalore, KA",
+      description:
+        "Worked on the Mobility Platform team, building core internal tools and dashboards that empower operations and finance teams to track KPIs, regional performance, and product growth metrics.",
+      achievements: [
+        "Designed and developed the **Product Mobility / Taxi Dashboard**, a real-time analytics tool used by upper management to monitor KPIs and financial performance across countries and regions",
+        "Implemented **Next.js** and **TypeScript** for high-performance server-side rendering and modular frontend architecture, improving data visualization responsiveness by 40%",
+        "Built data aggregation pipelines using **Go** and **Node.js** to consolidate 25+ region-specific accounting queries and financial adjustments into unified APIs",
+        "Containerized and deployed services via **Docker**, streamlining local development and production parity",
+        "Integrated **WebSockets** for live data updates and forecasting accuracy, enabling weekly and monthly metric comparisons without manual refreshes",
+      ],
+      image: "./portfolio4.jpg",
+      technologies: [
+        "Python",
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "WebSockets",
+        "Docker",
+        "PostgreSQL",
+        "AWS",
+      ],
+    },
+    {
       company: "PLIVO (Contacto)",
       role: "SDE | Founding Team",
-      period: "06/2022 - Present",
+      period: "06/2022 - 08/2024",
       icon: Rocket,
       location: "Bangalore, KA",
       description:
