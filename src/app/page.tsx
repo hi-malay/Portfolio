@@ -196,7 +196,7 @@ export default function Portfolio() {
       icon: Rocket,
       location: "Bangalore, KA",
       description:
-        "Contacto (a subsidiary of Myntra) is a product solution that enables businesses to set up their contact center with a few button clicks and drag and drop functionality.",
+        "Contacto is a product solution that enables businesses to set up their contact center with a few button clicks and drag and drop functionality.",
       achievements: [
         "Converted Electron.js desktop app to web with 50% speed improvement using WebSockets and BroadcastListeners for real-time communication",
         "Migrated Create React App (CRA) to Vite: 2x dev time reduction, 4x faster builds with Rollup",
@@ -403,7 +403,7 @@ export default function Portfolio() {
               <motion.div
                 key={idx}
                 initial={{ y: 0 }}
-                animate={{ y: [0, -20, 0] }}
+                animate={{ y: [50, -5, 50] }}
                 transition={{
                   duration: 3 + idx * 0.5,
                   ease: "easeInOut",
@@ -429,7 +429,7 @@ export default function Portfolio() {
                     : idx === 1
                     ? "border-purple-400/30"
                     : "border-green-400/30"
-                } p-8 flex flex-col justify-center`}
+                } p-8 flex-col justify-center`}
               >
                 <motion.div className="text-5xl font-bold mb-2">
                   {stat.value}
@@ -446,7 +446,7 @@ export default function Portfolio() {
       {/* Experience Section with Images */}
       <motion.section
         id="experience"
-        className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
+        className="py-40 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
       >
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
