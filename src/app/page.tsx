@@ -1,6 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { easeInOut, easeOut, motion } from "framer-motion";
+import {
+  easeInOut,
+  easeOut,
+  useMotionValue,
+  useSpring,
+  motion,
+} from "framer-motion";
+
 import {
   Menu,
   X,
@@ -268,6 +275,26 @@ export default function Portfolio() {
       ],
     },
   ];
+
+  const cursorX = useMotionValue(0);
+  const cursorY = useMotionValue(0);
+
+  // spring configuration
+  const springConfig = { stiffness: 300, damping: 25, mass: 0.5 };
+
+  // create spring-animated values
+  const cursorXSpring = useSpring(cursorX, springConfig);
+  const cursorYSpring = useSpring(cursorY, springConfig);
+
+  // track mouse movement
+  useEffect(() => {
+    const moveCursor = (e: MouseEvent) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, [cursorX, cursorY]);
 
   const stats = [
     { label: "Years Experience", value: "4+", delay: 0 },
@@ -779,6 +806,13 @@ export default function Portfolio() {
           © 2025 Malay Mishra. Crafted with React & Framer Motion.
         </motion.p>
       </motion.footer>
+      <motion.div
+        className="fixed top-0 left-0 w-6 h-6 bg-cyan-400/50 rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        style={{
+          translateX: cursorXSpring,
+          translateY: cursorYSpring,
+        }}
+      />
     </div>
   );
 }
