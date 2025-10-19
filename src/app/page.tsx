@@ -21,10 +21,69 @@ import {
   Book,
 } from "lucide-react";
 
+type Experience = {
+  company: string;
+  role: string;
+  period: string;
+  icon: string; // will map to a lucide-react component
+  location: string;
+  description: string;
+  achievements: string[];
+  image: string;
+  technologies: string[];
+};
+
+type SkillGroup = {
+  category: string;
+  items: string[];
+};
+
 export default function Portfolio() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // SEO Meta tags
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [skills, setSkills] = useState<SkillGroup[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [expRes, skillRes] = await Promise.all([
+          fetch(
+            "https://raw.githubusercontent.com/hi-malay/portfolio-data/main/experience.json"
+          ),
+          fetch(
+            "https://raw.githubusercontent.com/hi-malay/portfolio-data/main/skills.json"
+          ),
+        ]);
+
+        const [expData, skillData] = await Promise.all([
+          expRes.json(),
+          skillRes.json(),
+        ]);
+
+        setExperiences(expData);
+        setSkills(skillData);
+      } catch (err) {
+        console.error("Failed to fetch portfolio data:", err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const iconMap: Record<string, React.ElementType> = {
+    Menu,
+    X,
+    Github,
+    Linkedin,
+    Mail,
+    ExternalLink,
+    Zap,
+    BarChart3,
+    Rocket,
+    Book,
+  };
+
   useEffect(() => {
     document.title =
       "Malay Mishra - Fullstack Engineer | React, Next.js, Node.js Developer in Bangalore";
@@ -150,158 +209,6 @@ export default function Portfolio() {
       transition: { duration: 0.8, ease: easeOut },
     },
   };
-
-  const skills = [
-    {
-      category: "Frontend",
-      items: [
-        "React Js",
-        "Next Js",
-        "Vue Js",
-        "TypeScript",
-        "Redux",
-        "Angular Js",
-        "Tailwind CSS",
-      ],
-    },
-    {
-      category: "Backend",
-      items: ["Node Js", "Python", "Flask", "Django", "GraphQL", "Express"],
-    },
-    { category: "Mobile", items: ["React Native", "Electron JS"] },
-    {
-      category: "DevOps & Tools",
-      items: [
-        "AWS",
-        "CI/CD",
-        "Docker",
-        "Webpack/Vite",
-        "Bun JS",
-        "Monorepo Lerna",
-      ],
-    },
-    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Firebase"] },
-    {
-      category: "Other",
-      items: [
-        "Microfrontend",
-        "GraphQL",
-        "C++",
-        "Go",
-        "Storybook",
-        "Jest",
-        "Testing",
-      ],
-    },
-  ];
-
-  const experiences = [
-    {
-      company: "Uber",
-      role: "Software Engineer",
-      period: "09/2024 - 11/2024",
-      icon: Rocket,
-      location: "Bangalore, KA",
-      description:
-        "Worked on the Mobility Platform team, building core internal tools and dashboards that empower operations and finance teams to track KPIs, regional performance, and product growth metrics.",
-      achievements: [
-        "Designed and developed the **Product Mobility / Taxi Dashboard**, a real-time analytics tool used by upper management to monitor KPIs and financial performance across countries and regions",
-        "Implemented **Next.js** and **TypeScript** for high-performance server-side rendering and modular frontend architecture, improving data visualization responsiveness by 40%",
-        "Built data aggregation pipelines using **Go** and **Node.js** to consolidate 25+ region-specific accounting queries and financial adjustments into unified APIs",
-        "Containerized and deployed services via **Docker**, streamlining local development and production parity",
-        "Integrated **WebSockets** for live data updates and forecasting accuracy, enabling weekly and monthly metric comparisons without manual refreshes",
-      ],
-      image: "./portfolio4.jpg",
-      technologies: [
-        "Python",
-        "Next.js",
-        "TypeScript",
-        "Node.js",
-        "WebSockets",
-        "Docker",
-        "PostgreSQL",
-        "AWS",
-      ],
-    },
-    {
-      company: "PLIVO (Contacto)",
-      role: "SDE | Founding Team",
-      period: "06/2022 - 08/2024",
-      icon: Rocket,
-      location: "Bangalore, KA",
-      description:
-        "Contacto is a product solution that enables businesses to set up their contact center with a few button clicks and drag and drop functionality.",
-      achievements: [
-        "Converted Electron.js desktop app to web with 50% speed improvement using WebSockets and BroadcastListeners for real-time communication",
-        "Migrated Create React App (CRA) to Vite: 2x dev time reduction, 4x faster builds with Rollup",
-        "Independently led development of Email and WhatsApp channels, Agent Monitoring, and Barging features, attracting 4 customers",
-        "Developed UI component library using Storybook and Material UI, integrated LogRocket logging and test automation pipeline reducing bugs by 40%",
-        "Implemented advanced browser features for seamless real-time communication without platform switching or multiple logins",
-      ],
-      image: "./portfolio1.jpeg",
-      technologies: [
-        "React",
-        "Vite",
-        "WebSockets",
-        "Storybook",
-        "Material UI",
-        "TypeScript",
-        "Node.js",
-      ],
-    },
-    {
-      company: "KREDX",
-      role: "SDE",
-      period: "06/2021 - 06/2022",
-      icon: BarChart3,
-      location: "Bangalore, KA",
-      description:
-        "Designed and developed critical components for fintech vendor onboarding platform using micro frontend architecture.",
-      achievements: [
-        "Integrated single SPA package for Micro FrontEnd architecture reducing deployment time by 60%",
-        "Enabled independent feature development by multiple developers simultaneously with isolated deployments",
-        "Designed server-driven forms that dynamically adapt to backend response for flexible vendor onboarding",
-        "Developed central document upload module with maker-checker functionality for team-wide reusability",
-        "Implemented GraphQL code generator for auto-generating types, reducing buggy code in production",
-        "Achieved 60% test coverage across entire Capvel repository with comprehensive unit and integration tests",
-      ],
-      image: "./portfolio2.jpeg",
-      technologies: [
-        "React",
-        "Micro Frontend",
-        "GraphQL",
-        "JavaScript",
-        "Jest",
-        "Single SPA",
-      ],
-    },
-    {
-      company: "GOODHEALTH",
-      role: "SDE | Founding Team",
-      period: "05/2020 - 04/2021",
-      icon: Zap,
-      location: "Bangalore, KA",
-      description:
-        "Built and optimized high-performance healthcare platform website with focus on UX and accessibility.",
-      achievements: [
-        "Created entire website from scratch using Ant Design component library with modern UI/UX",
-        "Optimized user experience with lazy loading, progressive image loading, and Brotli asset compression",
-        "Implemented parallax effects and animated UI for attractive and engaging user interactions",
-        "Ensured device accessibility and PWA requirements for cross-device compatibility",
-        "Achieved optimal performance metrics with 50% reduction in page load times",
-        "Implemented responsive design supporting all modern devices and screen sizes",
-      ],
-      image: "./portfolio3.jpeg",
-      technologies: [
-        "React",
-        "Ant Design",
-        "PWA",
-        "CSS",
-        "JavaScript",
-        "Web Performance",
-      ],
-    },
-  ];
 
   const cursorX = useMotionValue(0);
   const cursorY = useMotionValue(0);
@@ -519,7 +426,7 @@ export default function Portfolio() {
           className="space-y-12"
         >
           {experiences.map((exp, idx) => {
-            const Icon = exp.icon;
+            const Icon = iconMap[exp.icon] || ExternalLink;
             return (
               <motion.div
                 key={idx}
