@@ -49,10 +49,10 @@ export default function Portfolio() {
       try {
         const [expRes, skillRes] = await Promise.all([
           fetch(
-            "https://raw.githubusercontent.com/hi-malay/portfolio-data/main/experience.json"
+            "https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/experience.json"
           ),
           fetch(
-            "https://raw.githubusercontent.com/hi-malay/portfolio-data/main/skills.json"
+            "https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/skills.json"
           ),
         ]);
 
