@@ -18,7 +18,7 @@ import {
   Zap,
   BarChart3,
   Rocket,
-  Book,
+  FileSpreadsheet,
 } from "lucide-react";
 
 type Experience = {
@@ -81,7 +81,7 @@ export default function Portfolio() {
     Zap,
     BarChart3,
     Rocket,
-    Book,
+    FileSpreadsheet,
   };
 
   useEffect(() => {
@@ -250,23 +250,29 @@ export default function Portfolio() {
             Malay
           </motion.div>
           <div className="hidden md:flex gap-8">
-            {["home", "experience", "skills", "contact"].map((item) => (
-              <motion.a
-                key={item}
-                href={`#${item}`}
-                className="capitalize hover:text-cyan-400 transition relative group"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {item}
-                <motion.span
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.3 }}
-                />
-              </motion.a>
-            ))}
+            {["home", "experience", "skills", "contact", "resume"].map(
+              (item) => (
+                <motion.a
+                  key={item}
+                  href={
+                    item === "resume"
+                      ? "https://docs.google.com/document/d/1ooxRpsMKrawyWxY7ogWucUhPtU0PYjSdhW1NNqqBJys/edit?tab=t.0"
+                      : `#${item}`
+                  }
+                  className="capitalize hover:text-cyan-400 transition relative group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item}
+                  <motion.span
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-400"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </motion.a>
+              )
+            )}
           </div>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -718,7 +724,7 @@ export default function Portfolio() {
                 whileTap={{ scale: 0.95 }}
                 className="flex items-center gap-2 border border-slate-400 px-8 py-3 rounded-lg font-semibold hover:border-cyan-400 hover:text-cyan-400 transition"
               >
-                <Book size={20} /> Docs
+                <FileSpreadsheet size={20} /> Resume
               </motion.a>
             </motion.div>
           </motion.div>
