@@ -411,11 +411,9 @@ export default function Portfolio() {
       </motion.section>
 
       {/* Experience Section with Images */}
-      <motion.section
-        id="experience"
-        className="py-40 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto"
-      >
+      <motion.section className="py-40 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
         <motion.h2
+          id="experience"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -428,7 +426,7 @@ export default function Portfolio() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.05 }}
+          viewport={{ once: false, amount: 0.12, margin: "0px 0px -200px 0px" }}
           className="space-y-12"
         >
           {experiences.map((exp, idx) => {
