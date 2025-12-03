@@ -31,6 +31,7 @@ type Experience = {
   achievements: string[];
   image: string;
   technologies: string[];
+  link: string;
 };
 
 type SkillGroup = {
@@ -428,7 +429,7 @@ export default function Portfolio() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, amount: 0.05 }}
+          viewport={{ once: false, amount: 0.1, margin: "0px 0px -100px 0px" }}
           className="space-y-12"
         >
           {experiences.map((exp, idx) => {
@@ -441,7 +442,11 @@ export default function Portfolio() {
                 }
                 className="grid md:grid-cols-2 gap-8 items-center"
               >
-                <div className={`${idx % 2 === 1 ? "md:order-2" : ""}`}>
+                <div
+                  className={`${
+                    idx % 2 === 1 ? "md:order-2" : ""
+                  } hidden md:block`}
+                >
                   <motion.img
                     src={exp.image}
                     alt={exp.company}
@@ -493,7 +498,13 @@ export default function Portfolio() {
                         animate={{ x: [0, 5, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       >
-                        <ExternalLink size={18} className="text-cyan-400" />
+                        <a
+                          href={exp.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink size={18} className="text-cyan-400" />
+                        </a>
                       </motion.div>
                     </div>
 
