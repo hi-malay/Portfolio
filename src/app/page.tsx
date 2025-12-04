@@ -331,11 +331,12 @@ export default function Portfolio() {
             </motion.h1>
             <motion.p
               variants={itemVariants}
-              className="text-xl text-slate-300 mb-8 leading-relaxed"
+              className="text-l text-slate-300 mb-8 leading-relaxed"
             >
-              Fullstack Engineer with 4+ years building impactful digital
-              experiences. Passionate about performance optimization and
-              mentoring teams.
+              Fullstack Engineer with 4+ years building high-performance
+              systems. Delivered sub-second APIs, led major frontend revamps,
+              and shipped AI-driven features. Passionate about performance,
+              clean architecture, and mentoring engineers.
             </motion.p>
             <motion.div
               variants={containerVariants}
@@ -758,7 +759,7 @@ export default function Portfolio() {
         </motion.p>
       </motion.footer>
       <motion.div
-        className="fixed top-0 left-0 w-6 h-6 bg-cyan-400/50 rounded-full pointer-events-none z-[9999] mix-blend-difference"
+        className="hidden md:block fixed top-0 left-0 w-6 h-6 bg-cyan-400/50 rounded-full pointer-events-none z-[9999] mix-blend-difference"
         style={{
           translateX: cursorXSpring,
           translateY: cursorYSpring,
