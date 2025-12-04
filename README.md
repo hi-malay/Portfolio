@@ -3,7 +3,7 @@
 
 ## 🌐 Live Demo
 
-👉 **[Visit Portfolio](https://portfolio-42g9.vercel.app/)**
+👉 **[Visit Portfolio](https://malaymishra.com/)**
 
 
 A modern, responsive, and animation-rich portfolio website built with **Next**, **Framer Motion**, and **Tailwind CSS**.  
