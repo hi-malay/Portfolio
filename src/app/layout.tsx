@@ -48,10 +48,10 @@ export const metadata: Metadata = {
     siteName: "Malay Mishra Portfolio",
     images: [
       {
-        url: "https://malaymishra.com/thumbnail_cropped.png",
+        url: "https://malaymishra.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Malay Mishra - Fullstack Engineer",
+        alt: "Malay Mishra - Fullstack Engineer | AdeptMind",
       },
     ],
   },
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "Malay Mishra - Fullstack Engineer | AdeptMind",
     description:
       "Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend and Performance Optimization.",
-    images: ["https://malaymishra.com/thumbnail_cropped.png"],
+    images: ["https://malaymishra.com/og-image.png"],
   },
   robots: {
     index: true,
