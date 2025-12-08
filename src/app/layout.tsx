@@ -14,11 +14,52 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Malay Mishra - Fullstack Engineer",
+  title: "Malay Mishra - Fullstack Engineer | AdeptMind",
   description:
-    "Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development. Based in Bangalore.",
+    "Malay Mishra - Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind. Based in Bangalore, India.",
+  keywords: [
+    "Malay Mishra",
+    "Malay",
+    "AdeptMind",
+    "Fullstack Engineer",
+    "Fullstack Developer",
+    "Malay Mishra Fullstack",
+    "Python Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Micro Frontend",
+    "Bangalore Developer",
+    "Software Engineer India",
+  ],
+  authors: [{ name: "Malay Mishra" }],
+  creator: "Malay Mishra",
+  publisher: "Malay Mishra",
   alternates: {
-    canonical: "https://portfolio-42g9.vercel.app/",
+    canonical: "https://malaymishra.com/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://malaymishra.com/",
+    title: "Malay Mishra - Fullstack Engineer | AdeptMind",
+    description:
+      "Malay Mishra - Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind.",
+    siteName: "Malay Mishra Portfolio",
+    images: [
+      {
+        url: "https://malaymishra.com/thumbnail_cropped.png",
+        width: 1200,
+        height: 630,
+        alt: "Malay Mishra - Fullstack Engineer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Malay Mishra - Fullstack Engineer | AdeptMind",
+    description:
+      "Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend and Performance Optimization.",
+    images: ["https://malaymishra.com/thumbnail_cropped.png"],
   },
   robots: {
     index: true,
