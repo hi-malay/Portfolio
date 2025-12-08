@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://malaymishra.com"),
   title: "Malay Mishra - Fullstack Engineer | AdeptMind",
   description:
     "Malay Mishra - Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind. Based in Bangalore, India.",
