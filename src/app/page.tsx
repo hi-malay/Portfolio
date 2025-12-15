@@ -627,7 +627,7 @@ export default function Portfolio() {
                 <Mail size={20} /> Email Me
               </motion.a>
               <motion.a
-                href="https://www.linkedin.com/in/malay-mishra-34a914143/"
+                href="https://www.linkedin.com/in/mmalay/"
                 target="_blank"
                 rel="noopener noreferrer"
                 variants={itemVariants}
