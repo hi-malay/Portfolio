@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://malaymishra.com"),
   title: "Malay Mishra - Fullstack Engineer | AdeptMind",
   description:
-    "Malay Mishra - Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind. Based in Bangalore, India.",
+    "Malay Mishra - Fullstack Engineer with 5+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind. Based in Bangalore, India.",
   keywords: [
     "Malay Mishra",
     "Malay",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     url: "https://malaymishra.com/",
     title: "Malay Mishra - Fullstack Engineer | AdeptMind",
     description:
-      "Malay Mishra - Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind.",
+      "Malay Mishra - Fullstack Engineer with 5+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development at AdeptMind.",
     siteName: "Malay Mishra Portfolio",
     images: [
       {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Malay Mishra - Fullstack Engineer | AdeptMind",
     description:
-      "Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend and Performance Optimization.",
+      "Fullstack Engineer with 5+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend and Performance Optimization.",
     images: ["https://malaymishra.com/og-image.png"],
   },
   robots: {

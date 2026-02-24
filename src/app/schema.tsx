@@ -6,7 +6,7 @@ export default function Schema() {
     alternateName: ["Malay", "Malay Mishra Fullstack"],
     jobTitle: "Fullstack Engineer",
     description:
-      "Fullstack Engineer with 4+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development.",
+      "Fullstack Engineer with 5+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development.",
     url: "https://malaymishra.com",
     image: "https://malaymishra.com/thumbnail_cropped.png",
     worksFor: {
