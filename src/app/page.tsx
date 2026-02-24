@@ -175,11 +175,12 @@ export default function Portfolio() {
       );
 
       // CTAs
-      heroTl.from(
+      heroTl.fromTo(
         ".hero-cta",
+        { opacity: 0, y: 20 },
         {
-          opacity: 0,
-          y: 20,
+          opacity: 1,
+          y: 0,
           stagger: 0.15,
           duration: 0.6,
           ease: "power2.out",
@@ -558,7 +559,7 @@ export default function Portfolio() {
                   Malay Mishra
                 </span>
               </h1>
-              <p className="hero-description text-l text-slate-300 mb-8 leading-relaxed overflow-hidden">
+              <p className="hero-description text-l text-slate-300 mb-8 leading-relaxed">
                 Fullstack Engineer with 5+ years building high-performance
                 systems. Delivered sub-second APIs, led major frontend revamps,
                 and shipped AI-driven features. Passionate about performance,
