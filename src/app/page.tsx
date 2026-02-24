@@ -66,7 +66,7 @@ export default function Portfolio() {
         setExperiences(expData);
         setSkills(skillData);
       } catch (err) {
-        console.error("Failed to fetch portfolio data:", err);
+        console.error("Failed to fetch portfolio dataa:", err);
       }
     };
 
