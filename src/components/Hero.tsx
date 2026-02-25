@@ -79,12 +79,12 @@ export default function Hero() {
           Fullstack Engineer with 5+ years building high-performance systems. Delivered sub-second APIs, led major frontend revamps, and shipped AI-driven features. Passionate about performance, clean architecture, and mentoring engineers.
         </p>
         
-        <div className="flex flex-wrap gap-6 text-sm font-semibold tracking-wider">
-          <a href="#contact" className="hero-btn magnetic-wrap relative overflow-hidden group bg-foreground text-background px-8 py-4 rounded-full hover:scale-105 transition-transform duration-300">
-            <span className="relative z-10">LET'S TALK</span>
+        <div className="flex items-center gap-4 sm:gap-6 text-sm font-semibold tracking-wider">
+          <a href="#contact" className="hero-btn magnetic-wrap bg-foreground text-background px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:scale-105 transition-transform duration-300">
+            LET'S TALK
           </a>
-          <a href="#experience" className="hero-btn magnetic-wrap relative overflow-hidden group border border-foreground/20 text-foreground px-8 py-4 rounded-full hover:border-accent hover:text-accent transition-colors duration-300">
-            <span className="relative z-10">VIEW WORK</span>
+          <a href="#experience" className="hero-btn magnetic-wrap border border-foreground/20 text-foreground px-6 sm:px-8 py-3 sm:py-4 rounded-full hover:border-accent hover:text-accent transition-colors duration-300">
+            VIEW WORK
           </a>
         </div>
       </div>
