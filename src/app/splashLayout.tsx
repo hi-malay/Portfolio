@@ -50,13 +50,13 @@ export default function SplashLayout({
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="relative min-h-screen bg-background text-foreground">
       <main className="relative z-0">{children}</main>
 
       {visible && (
         <div
           ref={overlayRef}
-          className="pointer-events-auto fixed inset-0 z-50 flex items-center justify-center bg-slate-900"
+          className="pointer-events-auto fixed inset-0 z-50 flex items-center justify-center bg-background"
           style={{ backdropFilter: "blur(4px)" }}
         >
           <div
