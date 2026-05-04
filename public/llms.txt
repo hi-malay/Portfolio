@@ -1,0 +1,31 @@
+# Malay Mishra — Portfolio
+
+> Personal portfolio site of Malay Mishra, a senior frontend engineer transitioning to fullstack. Live at https://malaymishra.com.
+
+The site is a single-page Next.js app with sections for hero, experience, skills, and contact. Experience and skills data is fetched at build/runtime from a public GitHub data repo and revalidated hourly.
+
+## About
+- Name: Malay Mishra
+- Role: Senior Frontend Engineer (transitioning to fullstack)
+- Currently at: Adeptmind
+- Stack focus: React, Next.js, TypeScript, GSAP, Tailwind CSS, Go, Python
+
+## Pages
+- [Home](https://malaymishra.com/): main landing page with all sections
+- [Hero](https://malaymishra.com/#home): intro
+- [Experience](https://malaymishra.com/#about): work history
+- [Projects/Skills](https://malaymishra.com/#projects): tech stack and projects
+- [Contact](https://malaymishra.com/#contact): contact links
+
+## Data sources
+- [Experience JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/experience.json): structured experience data
+- [Skills JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/skills.json): structured skills data
+- [Sitemap](https://malaymishra.com/sitemap.xml)
+
+## Related projects
+- [code.malaymishra.com](https://code.malaymishra.com/): machine coding challenges (React)
+- [thikana.malaymishra.com](https://thikana.malaymishra.com/): AI chat popup demo
+- [thikanaa on npm](https://www.npmjs.com/package/thikanaa): published package
+
+## Tech
+Next.js 16, React 19, Tailwind CSS 4, GSAP + ScrollTrigger, Lenis smooth scroll, thikanaa (own npm package for AI chat).
