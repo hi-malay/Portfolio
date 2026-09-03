@@ -1,479 +1,486 @@
 /* Dala-derived landing styles. Scoped so the /profile editor keeps its own shell. */
-
-html:has(.landing) {
-	overflow-x: clip;
-	overflow-y: auto;
-	font-size: max(12px, 0.8333vw);
-	scrollbar-width: none;
-}
-
-html:has(.landing)::-webkit-scrollbar {
-	display: none;
-}
-
-body:has(.landing) {
-	overflow: visible;
-	background: #000;
-}
-
-.landing {
-	--paper: oklch(0 0 0);
-	--ink: oklch(100% 0 0);
-	--ink-mute: oklch(66.9% 0 0);
-	--ink-dim: oklch(78.5% 0 0);
-	--accent: oklch(58.3% 0.244 292);
-	--accent-soft: oklch(89.8% 0.062 305);
-	--amber: oklch(83.2% 0.156 79);
-	--hover-green: oklch(52.4% 0.086 174);
-	position: relative;
-	font-family: var(--font-inter-tight), system-ui, sans-serif;
-	font-weight: 200;
-	-webkit-font-smoothing: antialiased;
-	color: var(--ink);
-	background: var(--paper);
-}
-
-.landing ::selection {
-	color: var(--ink);
-	background: var(--accent);
-}
-
-.gl-canvas {
-	position: fixed;
-	inset: 0;
-	z-index: 0;
-	width: 100vw;
-	height: 100lvh;
-	pointer-events: none;
-}
-
-.header-veil {
-	position: fixed;
-	inset: 0 0 auto;
-	z-index: 900;
-	height: 6.4rem;
-	pointer-events: none;
-	background: linear-gradient(rgb(0 0 0 / 45%), rgb(0 0 0 / 8%));
-	backdrop-filter: blur(18px);
-	mask-image: linear-gradient(rgb(0 0 0) 55%, transparent);
-}
-
-.shell {
-	position: relative;
-	z-index: 3;
-}
-
-.section {
-	position: relative;
-	display: flex;
-	align-items: center;
-	width: 100%;
-	min-height: 100svh;
-	padding: 3.125rem 1.5rem;
-}
-
-@media (min-width: 768px) {
-	.section {
-		padding: 3.125rem 3rem;
-	}
-}
-
-@media (min-width: 1024px) {
-	.section {
-		padding: 3.125rem 4rem;
-	}
-}
-
-@media (min-width: 1366px) {
-	.section {
-		padding: 5rem 10rem;
-	}
-}
-
-@media (max-width: 767px) {
-	#hero {
-		align-items: flex-end;
-		padding-bottom: 14svh;
-	}
-}
-
-.section--h15 {
-	min-height: 150svh;
-}
-
-.section--h35 {
-	min-height: 350svh;
-}
-
-.t-hero {
-	font-size: 4.6rem;
-	font-weight: 400;
-	line-height: 1.02;
-	letter-spacing: -0.04em;
-}
-
-@media (min-width: 768px) {
-	.t-hero {
-		font-size: 6.5rem;
-	}
-}
-
-.t-section {
-	font-size: 2.6rem;
-	font-weight: 400;
-	line-height: 1.15;
-	letter-spacing: -0.02em;
-}
-
-@media (min-width: 768px) {
-	.t-section {
-		font-size: 3.5rem;
-	}
-}
-
-.t-big {
-	font-size: 4rem;
-	font-weight: 400;
-	line-height: 1.05;
-	letter-spacing: -0.03em;
-}
-
-@media (min-width: 768px) {
-	.t-big {
-		font-size: 6.5rem;
-	}
-}
-
-.t-statement {
-	font-size: 1.9rem;
-	font-weight: 400;
-	line-height: 1.25;
-}
-
-@media (min-width: 768px) {
-	.t-statement {
-		font-size: 3rem;
-		line-height: 1.2;
-	}
-}
-
-.t-cta {
-	font-size: 2.6rem;
-	font-weight: 400;
-	line-height: 1.2;
-	letter-spacing: -0.02em;
-}
-
-@media (min-width: 768px) {
-	.t-cta {
-		font-size: 4rem;
-	}
-}
-
-.t-body {
-	font-size: 1.5rem;
-	font-weight: 200;
-	line-height: 1.5;
-}
-
-.t-kicker {
-	font-size: max(12px, 1rem);
-	font-weight: 600;
-	line-height: 1.2;
-	color: var(--amber);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-.t-label {
-	font-size: max(12px, 1rem);
-	font-weight: 600;
-	color: var(--accent-soft);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-.t-mute {
-	color: var(--ink-mute);
-}
-
-.split-line {
-	padding-bottom: 0.12em;
-	margin-bottom: -0.12em;
-}
-
-.pill {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	padding: 1.2rem 1.33rem;
-	overflow: hidden;
-	font-size: max(12px, 0.875rem);
-	font-weight: 600;
-	line-height: 1;
-	color: var(--ink);
-	text-transform: uppercase;
-	letter-spacing: 0.025em;
-	white-space: nowrap;
-	background: var(--accent);
-	border-radius: 1.875rem;
-	transform: translateZ(0);
-}
-
-.pill > span {
-	position: relative;
-	z-index: 2;
-}
-
-.pill::before {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	content: "";
-	background: var(--hover-green);
-	border-radius: inherit;
-	clip-path: ellipse(120% 180% at 50% 310%);
-	transition: clip-path 1.1s cubic-bezier(0.215, 0.61, 0.355, 1);
-}
-
-.pill:hover::before,
-.pill:focus-visible::before {
-	clip-path: ellipse(120% 180% at 50% 60%);
-}
-
-.pill:focus-visible {
-	outline: 2px solid var(--ink);
-	outline-offset: 3px;
-}
-
-.round-btn {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 3.438rem;
-	height: 3.438rem;
-	overflow: hidden;
-	color: var(--ink);
-	background: var(--accent);
-	border-radius: 50%;
-	transform: translateZ(0);
-}
-
-.round-btn > svg {
-	position: relative;
-	z-index: 2;
-	transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.round-btn::before {
-	position: absolute;
-	inset: 0;
-	z-index: 1;
-	content: "";
-	background: var(--hover-green);
-	border-radius: inherit;
-	transform: scale(0);
-	transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.round-btn:hover::before,
-.round-btn:focus-visible::before {
-	transform: scale(1);
-}
-
-.round-btn:hover > svg {
-	transform: scale(1.15);
-}
-
-.round-btn:focus-visible {
-	outline: 2px solid var(--ink);
-	outline-offset: 3px;
-}
-
-.link-amber {
-	position: relative;
-	font-weight: 600;
-	color: var(--amber);
-}
-
-.link-amber::after {
-	position: absolute;
-	right: 0;
-	bottom: -2px;
-	left: auto;
-	width: 0;
-	height: 1px;
-	content: "";
-	background: var(--amber);
-	transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.link-amber:hover::after {
-	right: auto;
-	left: 0;
-	width: 100%;
-}
-
-.nav-link {
-	display: inline-block;
-	padding-bottom: 0.2rem;
-	overflow: hidden;
-	font-size: max(12px, 0.875rem);
-	font-weight: 600;
-	color: var(--ink-mute);
-	text-transform: uppercase;
-	letter-spacing: 0.025em;
-	transition: color 0.5s cubic-bezier(0.5, 1, 0.89, 1);
-}
-
-.nav-link:hover,
-.nav-link[aria-current="true"] {
-	color: var(--ink);
-}
-
-.roll-char {
-	position: relative;
-	display: inline-block;
-	will-change: transform;
-}
-
-.glass {
-	background: linear-gradient(1turn, rgb(0 0 0 / 50%), rgb(0 0 0 / 10%));
-	backdrop-filter: blur(20px);
-}
-
-.hairline-t {
-	border-top: 1px solid rgb(255 255 255 / 10%);
-}
-
-.nav-burger {
-	display: inline-flex;
-}
-
-@media (min-width: 768px) {
-	.nav-burger {
-		display: none;
-	}
-}
-
-.beat {
-	max-width: 44rem;
-}
-
-.card {
-	padding: 2rem 0;
-	border-top: 1px solid rgb(255 255 255 / 10%);
-}
-
-.loader {
-	position: fixed;
-	inset: 0;
-	z-index: 10100;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	background: var(--paper);
-}
-
-.loader-spinner {
-	position: relative;
-	width: 7.5rem;
-	height: 7.5rem;
-	margin-bottom: 4.5rem;
-	animation: loader-spin 3s ease-in-out infinite;
-}
-
-.loader-spinner i {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 0.7rem;
-	height: 0.7rem;
-	background: var(--ink);
-}
-
-.loader-spinner i:nth-child(1) {
-	transform: translate(-50%, -50%) translateY(-3.75rem);
-}
-
-.loader-spinner i:nth-child(2) {
-	transform: translate(-50%, -50%) translateX(3.75rem);
-}
-
-.loader-spinner i:nth-child(3) {
-	transform: translate(-50%, -50%) translateY(3.75rem);
-}
-
-.loader-spinner i:nth-child(4) {
-	transform: translate(-50%, -50%) translateX(-3.75rem);
-}
-
-@keyframes loader-spin {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	25% {
-		transform: rotate(90deg);
-	}
-
-	50% {
-		transform: rotate(180deg);
-	}
-
-	75% {
-		transform: rotate(270deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-.loader-word {
-	max-width: 72rem;
-	font-size: 2.6rem;
-	font-weight: 200;
-	line-height: 1.25;
-	text-align: center;
-	letter-spacing: -0.02em;
-}
-
-.loader-word .split-line {
-	text-align: center;
-}
-
-@media (min-width: 768px) {
-	.loader-word {
-		font-size: 3.7rem;
-	}
-}
-
-.loader-meta {
-	position: absolute;
-	right: 3.2rem;
-	bottom: 2rem;
-	left: 3.2rem;
-	display: flex;
-	justify-content: space-between;
-	font-size: max(12px, 1rem);
-	font-weight: 600;
-	color: var(--ink);
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-}
-
-@media (prefers-reduced-motion: reduce) {
-	.pill::before,
-	.round-btn::before,
-	.link-amber::after {
-		transition-duration: 0.01ms;
-	}
-
-	.loader-spinner {
-		animation: none;
-	}
+/*
+ * Wrapped in @layer components so Tailwind utilities (emitted into
+ * @layer utilities, which sorts after) can override these. Unlayered CSS
+ * beats any layered rule regardless of specificity, so without this the
+ * utility classes in landing.tsx silently do nothing.
+ */
+@layer components {
+  html:has(.landing) {
+    overflow-x: clip;
+    overflow-y: auto;
+    font-size: max(12px, 0.8333vw);
+    scrollbar-width: none;
+  }
+
+  html:has(.landing)::-webkit-scrollbar {
+    display: none;
+  }
+
+  body:has(.landing) {
+    overflow: visible;
+    background: #000;
+  }
+
+  .landing {
+    --paper: oklch(0 0 0);
+    --ink: oklch(100% 0 0);
+    /* Brightness descends ink → ink-mute → ink-dim, matching prominence:
+		 * ink-mute carries body copy and nav links that sit over the WebGL
+		 * scene, ink-dim only the footer line on top of .glass. These were
+		 * swapped, so the faintest text was the brightest grey on the page. */
+    --ink-mute: oklch(76% 0 0);
+    --ink-dim: oklch(66% 0 0);
+    --accent: oklch(58.3% 0.244 292);
+    --amber: oklch(83.2% 0.156 79);
+    --hover-green: oklch(52.4% 0.086 174);
+    position: relative;
+    font-family: var(--font-inter-tight), system-ui, sans-serif;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    color: var(--ink);
+    background: var(--paper);
+  }
+
+  .landing ::selection {
+    color: var(--ink);
+    background: var(--accent);
+  }
+
+  .gl-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 100lvh;
+    pointer-events: none;
+  }
+
+  /* Must cover the whole header, else the nav links and the Resume pill render
+	 * over unmitigated WebGL. Header measures ~5.5rem mobile / ~8.5rem desktop
+	 * (2 × 2.6rem padding + a 3.275rem pill). */
+  .header-veil {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 900;
+    height: 6.4rem;
+    pointer-events: none;
+    background: linear-gradient(rgb(0 0 0 / 45%), rgb(0 0 0 / 8%));
+    backdrop-filter: blur(18px);
+    mask-image: linear-gradient(rgb(0 0 0) 70%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .header-veil {
+      height: 9rem;
+    }
+  }
+
+  .shell {
+    position: relative;
+    z-index: 3;
+  }
+
+  .section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 100svh;
+    /* Vertical padding is kept symmetric and at least the header's height, so
+		 * centred content looks unchanged while copy that outgrows the viewport
+		 * still starts below the fixed header instead of under it. Header is
+		 * ~5.5rem mobile, ~8.5rem from 768px up once the nav row appears. */
+    padding: 1rem 1.5rem;
+    /* Clears the fixed header if a native hash landing ever bypasses
+		 * bindNavScroll (e.g. a direct visit to /#work). */
+    scroll-margin-top: 9rem;
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding: 0rem 3rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .section {
+      padding: 0rem 4rem;
+    }
+  }
+
+  @media (min-width: 1366px) {
+    .section {
+      padding: 0rem 10rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    #hero {
+      align-items: flex-end;
+      padding-bottom: 14svh;
+    }
+  }
+
+  .section--h15 {
+    min-height: 150svh;
+  }
+
+  .section--h35 {
+    min-height: 350svh;
+  }
+
+  .t-hero {
+    font-size: 4.6rem;
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+  }
+
+  @media (min-width: 768px) {
+    .t-hero {
+      font-size: 6.5rem;
+    }
+  }
+
+  .t-section {
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .t-section {
+      font-size: 3.5rem;
+    }
+  }
+
+  .t-big {
+    font-size: 4rem;
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  @media (min-width: 768px) {
+    .t-big {
+      font-size: 6.5rem;
+    }
+  }
+
+  .t-statement {
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  @media (min-width: 768px) {
+    .t-statement {
+      font-size: 3rem;
+      line-height: 1.2;
+    }
+  }
+
+  .t-cta {
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .t-cta {
+      font-size: 4rem;
+    }
+  }
+
+  .t-body {
+    font-size: 1.5rem;
+    font-weight: 200;
+    line-height: 1.5;
+  }
+
+  .t-kicker {
+    font-size: max(12px, 1rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--amber);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .t-mute {
+    color: var(--ink-mute);
+  }
+
+  .split-line {
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  .pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.2rem 1.33rem;
+    overflow: hidden;
+    font-size: max(12px, 0.875rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    white-space: nowrap;
+    background: var(--accent);
+    border-radius: 1.875rem;
+    transform: translateZ(0);
+  }
+
+  .pill > span {
+    position: relative;
+    z-index: 2;
+  }
+
+  .pill::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    background: var(--hover-green);
+    border-radius: inherit;
+    clip-path: ellipse(120% 180% at 50% 310%);
+    transition: clip-path 1.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .pill:hover::before,
+  .pill:focus-visible::before {
+    clip-path: ellipse(120% 180% at 50% 60%);
+  }
+
+  .pill:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .round-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.438rem;
+    height: 3.438rem;
+    overflow: hidden;
+    color: var(--ink);
+    background: var(--accent);
+    border-radius: 50%;
+    transform: translateZ(0);
+  }
+
+  .round-btn > svg {
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .round-btn::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    background: var(--hover-green);
+    border-radius: inherit;
+    transform: scale(0);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .round-btn:hover::before,
+  .round-btn:focus-visible::before {
+    transform: scale(1);
+  }
+
+  .round-btn:hover > svg {
+    transform: scale(1.15);
+  }
+
+  .round-btn:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .link-amber {
+    position: relative;
+    font-weight: 600;
+    color: var(--amber);
+  }
+
+  .link-amber::after {
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    left: auto;
+    width: 0;
+    height: 1px;
+    content: "";
+    background: var(--amber);
+    transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .link-amber:hover::after {
+    right: auto;
+    left: 0;
+    width: 100%;
+  }
+
+  .nav-link {
+    display: inline-block;
+    padding-bottom: 0.2rem;
+    overflow: hidden;
+    font-size: max(12px, 0.875rem);
+    font-weight: 600;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    transition: color 0.5s cubic-bezier(0.5, 1, 0.89, 1);
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current="true"] {
+    color: var(--ink);
+  }
+
+  .roll-char {
+    position: relative;
+    display: inline-block;
+    will-change: transform;
+  }
+
+  .glass {
+    background: linear-gradient(1turn, rgb(0 0 0 / 50%), rgb(0 0 0 / 10%));
+    backdrop-filter: blur(20px);
+  }
+
+  .hairline-t {
+    border-top: 1px solid rgb(255 255 255 / 10%);
+  }
+
+  .nav-burger {
+    display: inline-flex;
+  }
+
+  @media (min-width: 768px) {
+    .nav-burger {
+      display: none;
+    }
+  }
+
+  .beat {
+    max-width: 44rem;
+  }
+
+  .card {
+    padding: 2rem 0;
+    border-top: 1px solid rgb(255 255 255 / 10%);
+  }
+
+  .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 10100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+  }
+
+  /* Wrapper keeps its name and stays unrotated — playIntro() scales this element
+     in and out, and the portrait shouldn't tumble with it. The progress cue
+     lives on the ring below instead. */
+  .loader-spinner {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 14rem;
+    height: 14rem;
+    margin-bottom: 4.5rem;
+  }
+
+  .loader-spinner::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    border: 2px solid rgb(255 255 255 / 14%);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: loader-spin 1.1s linear infinite;
+  }
+
+  /* The portrait is a 2:3 transparent PNG with the face in the upper half, so a
+     centred square crop would cut the head — bias the crop upward. The faint
+     wash gives the dark hoodie an edge to sit against on a black ground. */
+  .loader-photo {
+    width: 11.5rem;
+    height: 11.5rem;
+    object-fit: cover;
+    object-position: 50% 18%;
+    background: rgb(255 255 255 / 6%);
+    border-radius: 50%;
+  }
+
+  @keyframes loader-spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .loader-word {
+    max-width: 72rem;
+    font-size: 2.6rem;
+    font-weight: 200;
+    line-height: 1.25;
+    text-align: center;
+    letter-spacing: -0.02em;
+  }
+
+  .loader-word .split-line {
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .loader-word {
+      font-size: 3.7rem;
+    }
+  }
+
+  .loader-meta {
+    position: absolute;
+    right: 3.2rem;
+    bottom: 2rem;
+    left: 3.2rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: max(12px, 1rem);
+    font-weight: 600;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pill::before,
+    .round-btn::before,
+    .link-amber::after {
+      transition-duration: 0.01ms;
+    }
+
+    .loader-spinner::before {
+      animation: none;
+    }
+  }
 }

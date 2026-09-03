@@ -20,6 +20,12 @@ The site is a single-page Next.js app with a WebGL particle scene that morphs be
 - [Focus](https://malaymishra.com/#focus): skills grouped by domain
 - [Contact](https://malaymishra.com/#contact): contact links
 
+## Contact
+- Email: hi.malay879@gmail.com
+- [LinkedIn](https://linkedin.com/in/mmalay)
+- [GitHub](https://github.com/hi-malay)
+- [Instagram](https://instagram.com/hi.malay.a)
+
 ## Data sources
 - [Experience JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/experience.json): structured experience data
 - [Skills JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/skills.json): structured skills data

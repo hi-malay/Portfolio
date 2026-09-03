@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import type { TProfile } from "@/data/profile";
 import { interTight } from "@/utils/helper/font-helper";
 
@@ -15,8 +17,6 @@ const NAV_LINKS = [
 	{ href: "#focus", label: "Focus", section: "focus" },
 	{ href: "#contact", label: "Contact", section: "contact" },
 ];
-
-const TRAILING_SLASH = /\/$/;
 
 const firstBullet = (text?: string) =>
 	(text ?? "")
@@ -94,10 +94,10 @@ export default function Landing({ profile }: LandingProps) {
 		<div className={`landing ${interTight.variable}`}>
 			<div aria-hidden="true" className="loader" id="loader">
 				<div className="loader-spinner">
-					<i />
-					<i />
-					<i />
-					<i />
+					{/* next/image so the 1.6MB source is served resized and in a modern
+					    format — this is the first thing painted, so the raw file would
+					    stall the very screen it appears on. priority preloads it. */}
+					<Image alt="" className="loader-photo" height={344} priority src="/thumbnail.png" width={344} />
 				</div>
 				<div className="loader-word">
 					Hi, I&apos;m {firstName}.
@@ -117,7 +117,11 @@ export default function Landing({ profile }: LandingProps) {
 			<div id="smooth-wrapper">
 				<div id="smooth-content">
 					<main className="shell">
-						<section className="section items-start pt-48" data-stage id="hero">
+						{/* Header clearance lives in .section's vertical padding, not a
+						    pt-* utility — the hero stays centred (bottom-anchored on
+						    mobile), and overflowing copy still can't slide under the
+						    fixed header. */}
+						<section className="section" data-stage id="hero">
 							<div className="w-full">
 								<h1 className="t-hero max-w-[9em]" data-hero-headline>
 									{firstName}
@@ -228,7 +232,7 @@ export default function Landing({ profile }: LandingProps) {
 							</div>
 						</section>
 
-						<section className="section flex-col justify-between pb-0" data-stage id="contact">
+						<section className="section flex-col justify-between" data-stage id="contact">
 							<div className="flex w-full flex-1 flex-col items-center justify-center text-center">
 								<h2 className="t-cta mx-auto max-w-[26em]" data-reveal>
 									Have something worth building?
@@ -244,20 +248,17 @@ export default function Landing({ profile }: LandingProps) {
 									</a>
 								</div>
 							</div>
-							<footer className="glass hairline-t -mx-6 flex w-screen flex-col items-center gap-6 px-8 py-8 md:flex-row md:justify-between md:px-12">
+							{/* mx-[calc(50%-50vw)] full-bleeds regardless of .section's padding,
+							    which steps from 1.5rem to 10rem across breakpoints. A fixed
+							    -mx-6 only cancelled the mobile value and pushed the social
+							    links off-screen everywhere above it. */}
+							<footer className="glass hairline-t mx-[calc(50%-50vw)] flex w-screen flex-col items-center gap-6 px-8 py-8 md:flex-row md:justify-between md:px-12">
 								<p className="text-(--ink-dim) text-[max(11px,0.8rem)]">
 									© {new Date().getFullYear()} {name}. {github ? `${github.public_repos} public repos.` : ""}
 								</p>
 								<nav className="flex flex-wrap items-center justify-center gap-6">
 									{socials.map((s) => (
-										<a
-											className="nav-link"
-											data-roll
-											href={`${s.url.replace(TRAILING_SLASH, "")}/${s.handle}`}
-											key={s.platform}
-											rel="noreferrer"
-											target="_blank"
-										>
+										<a className="nav-link" data-roll href={s.vanity} key={s.platform} rel="noreferrer" target="_blank">
 											{s.platform}
 										</a>
 									))}

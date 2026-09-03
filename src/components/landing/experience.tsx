@@ -46,15 +46,123 @@ function letterBounce(el: HTMLElement, signal: AbortSignal) {
 	);
 }
 
+// ScrollSmoother moves the page by transforming #smooth-content inside a fixed,
+// overflow-hidden wrapper, so no native `#work` scroll works — not an anchor
+// click, not a hash on load. The browser scrolls the hidden wrapper and the
+// smoother resets it. Everything below drives the smoother directly instead.
+//
+// Clearance matches .section's scroll-margin-top. The root font-size is
+// viewport-driven (max(12px, 0.8333vw)), so rem is resolved at call time.
+const HEADER_CLEARANCE_REM = 9;
+const clearancePx = () => HEADER_CLEARANCE_REM * Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+// Sections run 150–350svh with their content centred (#work, #focus), bottom-
+// aligned (#skills) or spread (#contact), so the top of the section box is dead
+// space — aiming at it lands the reader on a blank screen. Every section wraps
+// its content in a single leading element; that's the real destination.
+const scrollAnchor = (section: HTMLElement) => (section.firstElementChild as HTMLElement | null) ?? section;
+
+// Layout offsets, walked up the offsetParent chain. Deliberately not
+// getBoundingClientRect: ScrollSmoother translates #smooth-content, so rects are
+// in a moving frame and reading them mid-animation yields a position that
+// disagrees with the scroll value. offsetTop ignores transforms.
+function docY(el: HTMLElement) {
+	let y = 0;
+	let node: HTMLElement | null = el;
+	while (node) {
+		y += node.offsetTop;
+		node = node.offsetParent as HTMLElement | null;
+	}
+	return y;
+}
+
+const targetY = (section: HTMLElement) => Math.max(0, docY(scrollAnchor(section)) - clearancePx());
+
+// #smooth-wrapper is fixed + overflow:hidden, and a hash in the URL makes the
+// browser scroll *it* to reveal the target — a scroll ScrollSmoother knows
+// nothing about, so the content ends up offset from the position the smoother
+// and ScrollTrigger both think it's at, and every measurement disagrees with
+// what's on screen. GSAP guards the same case internally (ScrollSmoother.js).
+function resetWrapperScroll() {
+	const wrapper = document.querySelector<HTMLElement>("#smooth-wrapper");
+	if (!wrapper) return;
+	wrapper.scrollTop = 0;
+	wrapper.scrollLeft = 0;
+}
+
+// Passing scrollTo a number skips its own offset() lookup, which measures via a
+// throwaway ScrollTrigger. Reduced motion has no smoother — fall back to native.
+function scrollToSection(section: HTMLElement, smooth: boolean) {
+	const y = targetY(section);
+	resetWrapperScroll();
+	const smoother = ScrollSmoother.get();
+	if (smoother) smoother.scrollTo(y, smooth);
+	else window.scrollTo({ behavior: smooth ? "smooth" : "auto", top: y });
+}
+
+const hashTarget = () => document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+
+// Editing the hash in the address bar on an already-open page needs the same
+// treatment as a nav click. Nav clicks use replaceState, which doesn't fire this.
+function bindHashChange(signal: AbortSignal) {
+	window.addEventListener(
+		"hashchange",
+		() => {
+			const next = hashTarget();
+			if (next) scrollToSection(next, true);
+		},
+		{ signal }
+	);
+}
+
+// A hash on first load can't be honoured natively, and it can't be pre-set
+// before the smoother is created either: create() makes #smooth-wrapper fixed
+// and rewrites body height, and that reflow clamps any scroll set beforehand.
+// It also can't go in the same tick as paused(false) — unpausing writes
+// mainST.progress and kills the scrub, and a scroll landing in that tick renders
+// somewhere other than the value it reports, leaving ScrollTrigger evaluating a
+// position that isn't on screen. One settle tick after resume, it's exact.
+const RESUME_SETTLE = 0.2;
+
+function jumpToHash() {
+	const section = hashTarget();
+	if (section) gsap.delayedCall(RESUME_SETTLE, () => scrollToSection(section, true));
+}
+
+// Delegated on <header> so the desktop nav and the mobile menu (which mounts and
+// unmounts with the burger) are both covered by one listener.
+function bindNavScroll(signal: AbortSignal) {
+	const header = document.querySelector("header");
+	if (!header) return;
+	header.addEventListener(
+		"click",
+		(event) => {
+			const anchor = (event.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
+			const id = anchor?.getAttribute("href")?.slice(1);
+			const target = id ? document.getElementById(id) : null;
+			if (!target) return;
+			event.preventDefault();
+			scrollToSection(target, true);
+			history.replaceState(null, "", `#${id}`);
+		},
+		{ signal }
+	);
+}
+
 // Stage progress = index of the stage section under the viewport top + fraction scrolled through it.
 function bindProgress(scene: ParticleScene, smoother: ScrollSmoother | null, signal: AbortSignal) {
 	let stages: { height: number; top: number }[] = [];
+	const content = document.querySelector<HTMLElement>("#smooth-content");
 	const scrollTop = () => (smoother ? smoother.scrollTop() : window.scrollY);
+	// Measure against #smooth-content's own box rather than `rect.top + scrollTop()`:
+	// that identity only holds once the smoother's transform has caught up, and nav
+	// jumps are exactly a lagging-transform state. Both rects shift together under
+	// the transform, so the difference is stable mid-animation.
 	const measure = () => {
-		const scroll = scrollTop();
+		const origin = content ? content.getBoundingClientRect().top : -scrollTop();
 		stages = gsap.utils.toArray<HTMLElement>("[data-stage]").map((el) => {
 			const rect = el.getBoundingClientRect();
-			return { height: Math.max(1, rect.height), top: rect.top + scroll };
+			return { height: Math.max(1, rect.height), top: rect.top - origin };
 		});
 	};
 	const tick = () => {
@@ -162,7 +270,14 @@ export default function Experience() {
 				smoother = ScrollSmoother.create({ content: "#smooth-content", effects: false, smooth: 0.75, wrapper: "#smooth-wrapper" });
 				smoother.paused(true);
 			}
-			playIntro(reduced, scene, () => smoother?.paused(false));
+			playIntro(reduced, scene, () => {
+				smoother?.paused(false);
+				jumpToHash();
+			});
+			// Both outside the `reduced` guard — hash navigation needs offsetting
+			// against the fixed header either way.
+			bindNavScroll(aborter.signal);
+			bindHashChange(aborter.signal);
 			if (!reduced) bindScrollEffects(aborter.signal);
 		});
 

@@ -1,10 +1,14 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { EMAIL, SITE, social } from "@/data/links";
+
+const url = (platform: string) => social.find((s) => s.platform === platform)?.canonical ?? "";
+
 const MARKDOWN = `---
 title: Malay Mishra — Portfolio
 description: Senior Frontend Engineer transitioning to fullstack. Currently at Adeptmind. React, Next.js, Go, TypeScript.
-url: https://malaymishra.com
+url: ${SITE}
 ---
 
 # Malay Mishra
@@ -44,15 +48,17 @@ React, Next.js, TypeScript, Go, Python, GraphQL, Tailwind CSS, GSAP, Vite, WebSo
 - [thikana.malaymishra.com](https://thikana.malaymishra.com) — AI chat popup demo. Published to npm as [\`thikanaa\`](https://www.npmjs.com/package/thikanaa).
 
 ## Contact
-- Site: https://malaymishra.com
-- LinkedIn: https://www.linkedin.com/in/malay-mishra-34a914143/
-- GitHub: https://github.com/hi-malay
+- Site: ${SITE}
+- Email: ${EMAIL}
+- LinkedIn: ${url("linkedin")}
+- GitHub: ${url("github")}
+- Instagram: ${url("instagram")}
 
 ## Data sources
 - [Experience JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/experience.json)
 - [Skills JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/skills.json)
-- [Sitemap](https://malaymishra.com/sitemap.xml)
-- [llms.txt](https://malaymishra.com/llms.txt)
+- [Sitemap](${SITE}/sitemap.xml)
+- [llms.txt](${SITE}/llms.txt)
 `;
 
 export function middleware(req: NextRequest) {

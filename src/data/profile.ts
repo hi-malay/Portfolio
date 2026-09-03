@@ -5,6 +5,10 @@
 // github.com/hi-malay/portfolio-data via `buildProfile`, so content can be
 // updated without a redeploy. Every derived field has a safe empty fallback —
 // a failed fetch degrades to the static block rather than throwing.
+//
+// External URLs live in ./links, not here.
+
+import { EMAIL, MEETING, RESUME, social } from "./links";
 
 export interface RemoteExperience {
 	achievements?: string[];
@@ -50,23 +54,24 @@ const personal = {
 	about:
 		"Fullstack Engineer with 5+ years building high-performance systems. Delivered sub-second APIs, led major frontend revamps, and shipped AI-driven features. Passionate about performance, clean architecture, and mentoring engineers.",
 	currentRole: "Fullstack Engineer",
-	displayEmail: "hi.malay879@gmail.com",
-	emails: ["hi.malay879@gmail.com"],
+	displayEmail: EMAIL,
+	emails: [EMAIL],
 	github: { handle: "hi-malay", public_repos: 42 },
 	location: { city: "Bengaluru, Karnataka", country: "India", country_code: "IN", full: "Bengaluru, Karnataka, India" },
 	name: "Malay Mishra",
-	resume: "https://docs.google.com/document/d/1ooxRpsMKrawyWxY7ogWucUhPtU0PYjSdhW1NNqqBJys/edit?tab=t.0",
+	resume: RESUME,
 	tagline: "Building resilient systems that stay fast under load — from sub-second Go services to micro-frontends that ship without drama.",
 	title: "Engineer | Architect | Creator",
 	website: "malaymishra.com",
 };
 
-const socialHandles = [
-	{ handle: "mmalay", platform: "linkedin", url: "https://linkedin.com/in" },
-	{ handle: "hi-malay", platform: "github", url: "https://github.com" },
-];
+const socialHandles = social;
 
-const links = [{ key: "cv", url: personal.resume }];
+// `meet` is what landing.tsx's `meeting` falls back to before mailto.
+const links = [
+	{ key: "cv", url: personal.resume },
+	{ key: "meet", url: MEETING },
+];
 
 /** Achievements worth surfacing in `#impact` — those carrying a hard number. */
 const METRIC_RE = /\d+\s*%|\d+\s*x\b|\bsub-second\b|~?\d+\s*(?:tickets|customers|ms|s)\b|\d+\s*\+/i;

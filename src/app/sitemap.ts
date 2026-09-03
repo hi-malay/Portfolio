@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const baseUrl = "https://malaymishra.com";
+import { SITE as baseUrl } from "@/data/links";
 
 // Section anchors mirror the [data-stage] sections rendered by the landing page.
 const sections: { anchor: string; priority: number }[] = [
