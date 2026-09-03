@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
 
+import { SITE } from "@/data/links";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -9,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/private/"],
       },
     ],
-    sitemap: "https://malaymishra.com/sitemap.xml",
+    sitemap: `${SITE}/sitemap.xml`,
   };
 }

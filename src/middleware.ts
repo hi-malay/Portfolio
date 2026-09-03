@@ -1,18 +1,22 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { EMAIL, SITE, social } from "@/data/links";
+
+const url = (platform: string) => social.find((s) => s.platform === platform)?.canonical ?? "";
+
 const MARKDOWN = `---
 title: Malay Mishra — Portfolio
 description: Senior Frontend Engineer transitioning to fullstack. Currently at Adeptmind. React, Next.js, Go, TypeScript.
-url: https://malaymishra.com
+url: ${SITE}
 ---
 
 # Malay Mishra
 
-Senior Frontend Engineer transitioning to fullstack. Building things at Adeptmind (Founding Team). Based in Bangalore, India.
+Senior Frontend Engineer transitioning to fullstack. Building things at Adeptmind. Based in Bangalore, India.
 
 ## Currently
-- **Adeptmind** — Engineering, Founding Team (09/2024 – Present). Gen AI + deep intent mining for retail search and discovery.
+- **Adeptmind** — Senior Software Engineer (09/2024 – Present). Gen AI + deep intent mining for retail search and discovery.
   - Built \`dlp-endpoints\` service in Go, dropped client-facing API latency from ~1.8s to sub-second.
   - Shipped Interlink Optimization in Chat-DLP for better data linking and discoverability.
   - AI-driven interlink generation using OpenAI embeddings (CLP/DLP/PDP ratios for search + merchandising).
@@ -22,7 +26,7 @@ Senior Frontend Engineer transitioning to fullstack. Building things at Adeptmin
   - Mentored interns end-to-end, transitioned them into full-time engineers.
 
 ## Past Roles
-- **Plivo (Contacto)** — SDE, Founding Team (06/2022 – 08/2024). Cloud contact-center platform.
+- **Plivo (Contacto)** — SDE (06/2022 – 08/2024). Cloud contact-center platform.
   - Converted Electron desktop app to web with 50% speed bump using WebSockets + BroadcastListeners.
   - Migrated CRA → Vite: 2× faster dev, 4× faster builds.
   - Independently led Email + WhatsApp channels, Agent Monitoring, and Barging — pulled in 4 customers.
@@ -44,15 +48,17 @@ React, Next.js, TypeScript, Go, Python, GraphQL, Tailwind CSS, GSAP, Vite, WebSo
 - [thikana.malaymishra.com](https://thikana.malaymishra.com) — AI chat popup demo. Published to npm as [\`thikanaa\`](https://www.npmjs.com/package/thikanaa).
 
 ## Contact
-- Site: https://malaymishra.com
-- LinkedIn: https://www.linkedin.com/in/malay-mishra-34a914143/
-- GitHub: https://github.com/hi-malay
+- Site: ${SITE}
+- Email: ${EMAIL}
+- LinkedIn: ${url("linkedin")}
+- GitHub: ${url("github")}
+- Instagram: ${url("instagram")}
 
 ## Data sources
 - [Experience JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/experience.json)
 - [Skills JSON](https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main/skills.json)
-- [Sitemap](https://malaymishra.com/sitemap.xml)
-- [llms.txt](https://malaymishra.com/llms.txt)
+- [Sitemap](${SITE}/sitemap.xml)
+- [llms.txt](${SITE}/llms.txt)
 `;
 
 export function middleware(req: NextRequest) {

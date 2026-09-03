@@ -1,3 +1,5 @@
+import { canonicalSocial, SITE } from "@/data/links";
+
 export default function Schema() {
   const schema = {
     "@context": "https://schema.org",
@@ -7,8 +9,8 @@ export default function Schema() {
     jobTitle: "Fullstack Engineer",
     description:
       "Fullstack Engineer with 5+ years of experience in Python, GO, React, Next.js, Node.js. Specialized in Micro Frontend, Performance Optimization, and Web Development.",
-    url: "https://malaymishra.com",
-    image: "https://malaymishra.com/thumbnail_cropped.png",
+    url: SITE,
+    image: `${SITE}/thumbnail_cropped.png`,
     worksFor: {
       "@type": "Organization",
       name: "AdeptMind",
@@ -31,12 +33,9 @@ export default function Schema() {
       "Fullstack Development",
       "Software Engineering",
     ],
-    sameAs: [
-      // Add your social media profiles here
-      // "https://linkedin.com/in/yourprofile",
-      // "https://github.com/yourusername",
-      // "https://twitter.com/yourhandle",
-    ],
+    // Canonical profile URLs, not the vanity subdomains — a redirect hop
+    // weakens entity resolution.
+    sameAs: canonicalSocial,
   };
 
   return (
