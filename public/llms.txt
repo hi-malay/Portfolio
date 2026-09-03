@@ -2,7 +2,7 @@
 
 > Personal portfolio site of Malay Mishra, a senior frontend engineer transitioning to fullstack. Live at https://malaymishra.com.
 
-The site is a single-page Next.js app with sections for hero, experience, skills, and contact. Experience and skills data is fetched at build/runtime from a public GitHub data repo and revalidated hourly.
+The site is a single-page Next.js app with a WebGL particle scene that morphs between figures as you scroll. Sections: hero, about, work, skills, impact, focus, and contact. Experience and skills data is fetched at build/runtime from a public GitHub data repo and revalidated hourly.
 
 ## About
 - Name: Malay Mishra
@@ -12,9 +12,12 @@ The site is a single-page Next.js app with sections for hero, experience, skills
 
 ## Pages
 - [Home](https://malaymishra.com/): main landing page with all sections
-- [Hero](https://malaymishra.com/#home): intro
-- [Experience](https://malaymishra.com/#about): work history
-- [Projects/Skills](https://malaymishra.com/#projects): tech stack and projects
+- [Hero](https://malaymishra.com/#hero): intro
+- [About](https://malaymishra.com/#about): positioning statement
+- [Work](https://malaymishra.com/#work): work history
+- [Skills](https://malaymishra.com/#skills): tech stack
+- [Impact](https://malaymishra.com/#impact): quantified engineering outcomes
+- [Focus](https://malaymishra.com/#focus): skills grouped by domain
 - [Contact](https://malaymishra.com/#contact): contact links
 
 ## Data sources
@@ -28,4 +31,4 @@ The site is a single-page Next.js app with sections for hero, experience, skills
 - [thikanaa on npm](https://www.npmjs.com/package/thikanaa): published package
 
 ## Tech
-Next.js 16, React 19, Tailwind CSS 4, GSAP + ScrollTrigger, Lenis smooth scroll, thikanaa (own npm package for AI chat).
+Next.js 16, React 19, Tailwind CSS 4, Three.js (WebGL GPGPU particle system), GSAP + ScrollTrigger + ScrollSmoother + SplitText.
