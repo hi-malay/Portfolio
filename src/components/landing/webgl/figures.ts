@@ -73,24 +73,54 @@ function fitShell(inside: Inside, lo: Pt, hi: Pt, h0: number, count: number): Pt
 	return pts.slice(0, count);
 }
 
-const ell = (x: number, y: number, z: number, cx: number, cy: number, cz: number, rx: number, ry: number, rz: number) =>
-	((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 + ((z - cz) / rz) ** 2;
+// Trefoil knot, the (2,3) torus knot: x = sin t + 2sin 2t, y = cos t - 2cos 2t, z = -sin 3t.
+const KNOT_SAMPLES = 4000;
+const KNOT_GRID = 128;
+const KNOT_TUBE = 0.048;
+const KNOT_FIT = 0.33;
+// Sits above the box centre so the knot frames like the bust's head did, rather than
+// hanging off the bottom of the viewport.
+const KNOT_CENTER: Pt = [0.5, 0.6, 0.5];
 
-const SKULL = { cx: 0.5, cy: 0.6, cz: 0.5, rx: 0.27, ry: 0.33, rz: 0.29 };
-const inSkull = (x: number, y: number, z: number) => ell(x, y, z, SKULL.cx, SKULL.cy, SKULL.cz, SKULL.rx, SKULL.ry, SKULL.rz) <= 1;
-
-// Procedural bust, no image involved: skull, jaw, neck, shoulders, ears and nose as unions of ellipsoids with the eye
-// sockets and mouth carved out, so the shell picks up a face when the lattice samples it.
-function bustInside(x: number, y: number, z: number): boolean {
-	const jaw = ell(x, y, z, 0.5, 0.43, 0.51, 0.2, 0.17, 0.22) <= 1;
-	const neck = y > 0.12 && y < 0.34 && ((x - 0.5) / 0.085) ** 2 + ((z - 0.5) / 0.1) ** 2 <= 1;
-	const torso = y < 0.26 && ((x - 0.5) / Math.min(0.55, 0.22 + (0.26 - y) * 2.6)) ** 2 + ((z - 0.5) / 0.22) ** 2 <= 1;
-	const ears = ell(x, y, z, 0.22, 0.57, 0.48, 0.035, 0.06, 0.03) <= 1 || ell(x, y, z, 0.78, 0.57, 0.48, 0.035, 0.06, 0.03) <= 1;
-	const nose = ell(x, y, z, 0.5, 0.54, 0.79, 0.045, 0.085, 0.06) <= 1;
-	if (!(inSkull(x, y, z) || jaw || neck || torso || ears || nose)) return false;
-	const eyes = ell(x, y, z, 0.4, 0.63, 0.77, 0.055, 0.04, 0.06) <= 1 || ell(x, y, z, 0.6, 0.63, 0.77, 0.055, 0.04, 0.06) <= 1;
-	const mouth = Math.abs(x - 0.5) < 0.085 && Math.abs(y - 0.45) < 0.012 && z > 0.68;
-	return !(eyes || mouth);
+// The curve is stamped once into a coarse occupancy grid, so the lattice sampler gets O(1)
+// lookups. Testing each voxel against the curve directly is ~600M distance checks and stalls
+// scene init; this builds in a few ms and the grid is dropped once the shell is extracted.
+function knotInside(): Inside {
+	const n = KNOT_GRID;
+	const grid = new Uint8Array(n * n * n);
+	const curve: Pt[] = [];
+	for (let i = 0; i < KNOT_SAMPLES; i += 1) {
+		const t = (i / KNOT_SAMPLES) * 2 * Math.PI;
+		curve.push([Math.sin(t) + 2 * Math.sin(2 * t), Math.cos(t) - 2 * Math.cos(2 * t), -Math.sin(3 * t)]);
+	}
+	let extent = 0;
+	for (const p of curve) extent = Math.max(extent, Math.abs(p[0]), Math.abs(p[1]), Math.abs(p[2]));
+	const scale = KNOT_FIT / extent;
+	const radius = Math.ceil(KNOT_TUBE * n);
+	for (const p of curve) {
+		const cx = Math.floor((p[0] * scale + KNOT_CENTER[0]) * n);
+		const cy = Math.floor((p[1] * scale + KNOT_CENTER[1]) * n);
+		const cz = Math.floor((p[2] * scale + KNOT_CENTER[2]) * n);
+		for (let i = -radius; i <= radius; i += 1) {
+			for (let j = -radius; j <= radius; j += 1) {
+				for (let k = -radius; k <= radius; k += 1) {
+					if (i * i + j * j + k * k > radius * radius) continue;
+					const x = cx + i;
+					const y = cy + j;
+					const z = cz + k;
+					if (x < 0 || y < 0 || z < 0 || x >= n || y >= n || z >= n) continue;
+					grid[(x * n + y) * n + z] = 1;
+				}
+			}
+		}
+	}
+	return (x, y, z) => {
+		const gx = Math.floor(x * n);
+		const gy = Math.floor(y * n);
+		const gz = Math.floor(z * n);
+		if (gx < 0 || gy < 0 || gz < 0 || gx >= n || gy >= n || gz >= n) return false;
+		return grid[(gx * n + gy) * n + gz] === 1;
+	};
 }
 
 function glyphCanvas(): [HTMLCanvasElement, CanvasRenderingContext2D] | null {
@@ -170,7 +200,7 @@ function buildFigures(count: number): Pt[][] {
 		[0.92, 0.94, 0.58],
 	];
 	return [
-		fitShell(bustInside, [0, 0, 0.26], [1, 0.95, 0.86], 0.014, count),
+		fitShell(knotInside(), [0.14, 0.20, 0.32], [0.86, 1, 0.68], 0.013, count),
 		...LOGOS.map((icon) => fitShell(extruded(pathMask(icon.path, 24, 24, 0.82), 0.07), glyphBounds[0], glyphBounds[1], 0.01, count)),
 		fitShell(extruded(markMask(), 0.09, 0), [0, 0, 0.4], [1, 1, 0.6], 0.01, count),
 	];
@@ -240,40 +270,22 @@ function gradient(stops: [number, string][], t: number): Rgb {
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
-// Photo colours, with near-black hair and glasses lifted toward dala's lavender so they still read on black.
-const DARKS: Weighted = [
-	["#3c24ab", 40],
-	["#2a1b6e", 35],
-	["#36598e", 25],
+// Violet through indigo to amber, so the tube reads as one continuous ramp against the black.
+const KNOT_STOPS: [number, string][] = [
+	[0, "#2a1b6e"],
+	[0.3, "#3c24ab"],
+	[0.55, "#8433a8"],
+	[0.8, "#c88d00"],
+	[1, "#e8d3a4"],
 ];
-const SKIN: Weighted = [
-	["#c88d00", 50],
-	["#b1a0b6", 30],
-	["#c08302", 8],
-	["#a6597b", 6],
-	["#b47549", 6],
-];
-const TORSO: Weighted = [
-	["#7f939c", 40],
-	["#a99bb1", 30],
-	["#640ab8", 15],
-	["#00755c", 15],
-];
-const pickDark = weightedPicker(DARKS);
-const pickSkin = weightedPicker(SKIN);
-const pickTorso = weightedPicker(TORSO);
 
-// Hair over the top and back of the skull, brows above the sockets, beard on the lower front of the face, skin elsewhere.
-function bustColor(p: Pt): Rgb {
-	const [x, y, z] = p;
-	const back = z < 0.5;
-	const hairline = 0.745 - (0.07 * Math.abs(x - 0.5)) / SKULL.rx;
-	const onSkull = inSkull(x, y, z);
-	if (onSkull && (y > hairline || (back && y > 0.4))) return pickDark();
-	if (!back && Math.abs(y - 0.69) < 0.012 && Math.abs(x - 0.5) > 0.04 && Math.abs(x - 0.5) < 0.17) return pickDark();
-	if (!back && y < 0.485 && y > 0.26 && Math.abs(x - 0.5) < 0.21 && z > 0.6) return Math.random() < 0.72 ? pickDark() : pickSkin();
-	if (y < 0.26) return pickTorso();
-	return pickSkin();
+// Ramp along the knot's height, with occasional lavender and accent specks so the tube keeps
+// the same grain as the logo figures rather than reading as a flat gradient.
+function knotColor(p: Pt): Rgb {
+	const r = Math.random();
+	if (r < 0.13) return pickLavender();
+	if (r < 0.19) return pickAccent();
+	return gradient(KNOT_STOPS, clamp01((p[1] - 0.22) / 0.76));
 }
 
 function brandColor(hexColor: string): () => Rgb {
@@ -309,7 +321,7 @@ export interface FigureTextures {
 export function buildFigureTextures(grid: number): FigureTextures {
 	const count = grid * grid;
 	const figures = buildFigures(count);
-	const colorOf: ((p: Pt) => Rgb)[] = [bustColor, ...LOGOS.map((icon) => brandColor(icon.hex)), (p) => gradient(MARK_STOPS, clamp01((p[1] - 0.06) / 0.88))];
+	const colorOf: ((p: Pt) => Rgb)[] = [knotColor, ...LOGOS.map((icon) => brandColor(icon.hex)), (p) => gradient(MARK_STOPS, clamp01((p[1] - 0.06) / 0.88))];
 	const data = new Float32Array(count * FIGURE_COUNT * 4);
 	const color = new Float32Array(count * FIGURE_COUNT * 4);
 	for (let s = 0; s < FIGURE_COUNT; s += 1) {
