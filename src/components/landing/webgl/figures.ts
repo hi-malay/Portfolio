@@ -165,31 +165,35 @@ function extruded(mask: Mask, depth: number, inset = 0.08): Inside {
 	return (x, y, z) => Math.abs(z - 0.5) <= depth && mask((x - inset) / span, (y - inset) / span);
 }
 
-// Shared glyph path of public/logo/m.svg (viewBox 392×470), which offsets it by (5, 5). Keep the two in sync.
-const MARK_PATH = "M25 435L25 25L191 262L357 25L357 435L303 435L303 189L191 349L79 189L79 435Z";
+// The site badge (public/thumbnail_cropped.png, also the tab icon and header
+// mark): a cream ring around a maroon disc with a Devanagari म inside. Only the
+// light parts become particles — the ring and the glyph.
+//
+// Coordinates are badge space: the badge's bounding square normalised to 0..1
+// with y running down, so the figure fills its bounds instead of sitting in the
+// PNG's transparent margin. The ring is a circle, so it's analytic; the glyph is
+// baked from the PNG's light pixels as a 64×64 bitmap, row 0 = glyph top.
+const BADGE_RING_INNER = 0.9;
+const BADGE_GLYPH_BOX = [0.3509, 0.3502, 0.6491, 0.6484] as const;
+const BADGE_GLYPH_N = 64;
+const BADGE_GLYPH_BITS =
+	"//////////////////////////////////////////////////////////////////////////////////////////////////////////4AD//AAH/+AAAP/8AAf/4AAA//wAB//gAAD//AAH/+AAAP/8AAf/4AAA//wAB//gAAD//AAH/+AAAP/8AAf/4AAA//wAB//gAAD//AAH/+AAAP/8AAf/4AAA//wAB//gAAD//AAH/+AAAP/8AAf/4AAA//wAB//gAAD//AAH/+AAAP//////4AAf///////gAD///////+AAf///////4AB////////gAH///////+AA////////4AB////////gAH///////+AAP///////4AAf///////gAA///AAH/+AAB//8AAf/4AAD//wAB//gAAH//AAH/+AAAf/8AAf/4AAA//gAB//gAAB/+AAH/+AAAD/4AAf/4AAAD8AAB//gAAAAAAAH/+AAAAAAAAf/4AAAAAAAB//gAAAAAAAH/+AAAAAAAAf/4AAAAAAAB//gAAAAAAAH/+AAAAAAAAf/4AAAAAAAB//gAAAAAAAH/+AAAAAAAAf/4AAAAAAAB//AA=";
 
-// The MM mark as nav.tsx draws it: two identical M glyphs in square boxes, the second overlapping the first by 12/56 of a box.
-function markMask(): Mask {
-	const made = glyphCanvas();
-	if (!made) return () => false;
-	const [canvas, ctx] = made;
-	const s = canvas.width;
-	const overlap = 12 / 56;
-	const box = (s * 0.98) / (2 - overlap);
-	const scale = box / 470;
-	const x0 = (s - box * (2 - overlap)) / 2;
-	const y0 = (s - box) / 2;
-	const glyph = (bx: number, transform: [number, number, number, number, number, number]) => {
-		ctx.save();
-		ctx.translate(bx + (box - 392 * scale) / 2, y0);
-		ctx.scale(scale, scale);
-		ctx.transform(...transform);
-		ctx.fill(new Path2D(MARK_PATH));
-		ctx.restore();
+function badgeMask(): Mask {
+	const bytes = Uint8Array.from(atob(BADGE_GLYPH_BITS), (c) => c.charCodeAt(0));
+	const [x0, y0, x1, y1] = BADGE_GLYPH_BOX;
+	const n = BADGE_GLYPH_N;
+	return (u, v) => {
+		// Callers pass v bottom-up; badge space runs top-down.
+		const iy = 1 - v;
+		const radius = 2 * Math.hypot(u - 0.5, iy - 0.5);
+		if (radius >= BADGE_RING_INNER && radius <= 1) return true;
+		if (u < x0 || u >= x1 || iy < y0 || iy >= y1) return false;
+		const gx = Math.floor(((u - x0) / (x1 - x0)) * n);
+		const gy = Math.floor(((iy - y0) / (y1 - y0)) * n);
+		const bit = gy * n + gx;
+		return ((bytes[bit >> 3] ?? 0) & (0x80 >> (bit & 7))) !== 0;
 	};
-	glyph(x0, [1, 0, 0, 1, 5, 5]);
-	glyph(x0 + box * (1 - overlap), [1, 0, 0, 1, 5, 5]);
-	return maskFrom(ctx, s);
 }
 
 const LOGOS = [siTypescript, siJavascript, siHtml5, siPython, siReact, siNodedotjs];
@@ -202,7 +206,7 @@ function buildFigures(count: number): Pt[][] {
 	return [
 		fitShell(knotInside(), [0.14, 0.20, 0.32], [0.86, 1, 0.68], 0.013, count),
 		...LOGOS.map((icon) => fitShell(extruded(pathMask(icon.path, 24, 24, 0.82), 0.07), glyphBounds[0], glyphBounds[1], 0.01, count)),
-		fitShell(extruded(markMask(), 0.09, 0), [0, 0, 0.4], [1, 1, 0.6], 0.01, count),
+		fitShell(extruded(badgeMask(), 0.09, 0), [0, 0, 0.4], [1, 1, 0.6], 0.01, count),
 	];
 }
 
