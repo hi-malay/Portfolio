@@ -1,7 +1,6 @@
 import Landing from "@/components/landing/landing";
+import { DATA_BASE } from "@/data/links";
 import { buildProfile, type RemoteExperience, type RemoteSkillGroup } from "@/data/profile";
-
-const DATA_BASE = "https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main";
 
 async function getData(): Promise<{ experiences: RemoteExperience[]; skills: RemoteSkillGroup[] }> {
   try {

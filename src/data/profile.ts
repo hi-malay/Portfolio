@@ -79,7 +79,8 @@ const METRIC_RE = /\d+\s*%|\d+\s*x\b|\bsub-second\b|~?\d+\s*(?:tickets|customers
 /** Connectives that would leave the headline dangling if it ended on them. */
 const TRAILING_RE = /[\s,;:–—-]+(?:and|with|using|for|to|from|by|in|on|of|the|a|an|while|that|which)$/i;
 
-const clean = (text: string) => text.replace(/`/g, "").trim();
+// `**bold**` markers are for the /cv page; the landing renders plain text.
+const clean = (text: string) => text.replace(/`|\*\*/g, "").trim();
 
 const trimDangling = (text: string) => {
 	let out = text;

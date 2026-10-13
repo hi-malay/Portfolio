@@ -8,6 +8,8 @@
 export const SITE = "https://malaymishra.com";
 export const EMAIL = "hi.malay879@gmail.com";
 export const RESUME = "https://cv.malaymishra.com";
+// experience.json / skills.json live here so content updates skip a redeploy.
+export const DATA_BASE = "https://raw.githubusercontent.com/hi-malay/portfolio-data/refs/heads/main";
 
 // Google Calendar appointment schedule. The /u/0/ segment Google shows in your
 // own address bar is an account index — it resolves against whichever Google
