@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   // Stops Next from generating AGENTS.md / CLAUDE.md into the repo root.
   agentRules: false,
   reactCompiler: true,
+  // cv.malaymishra.com/ -> /cv. beforeFiles because "/" is a real page and would win otherwise.
+  async rewrites() {
+    return {
+      beforeFiles: [{ source: "/", has: [{ type: "host", value: "cv.malaymishra.com" }], destination: "/cv" }],
+      afterFiles: [],
+      fallback: [],
+    };
+  },
   turbopack: {
     rules: {
       "*.svg": {

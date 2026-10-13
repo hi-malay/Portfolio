@@ -1,4 +1,11 @@
-import { Inter_Tight, Outfit } from "next/font/google";
+import { EB_Garamond, Inter_Tight, Outfit } from "next/font/google";
+
+// Serif used by the /cv page, matches the PDF resume.
+export const ebGaramond = EB_Garamond({
+	display: "swap",
+	subsets: ["latin"],
+	weight: "variable",
+});
 
 export const interTight = Inter_Tight({
 	display: "swap",

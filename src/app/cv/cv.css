@@ -1,0 +1,130 @@
+.cv {
+  min-height: 100vh;
+  padding: 40px 16px 120px; /* bottom room so the floating button never covers the last line */
+  background: #1a1a1a;
+}
+
+.cv-paper {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 56px 64px;
+  background: #fff;
+  color: #111;
+  font-size: 16px;
+  line-height: 1.4;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0.5);
+}
+
+.cv-paper a {
+  color: #1155cc;
+  text-decoration: underline;
+}
+
+.cv-head {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cv-head h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1155cc;
+  text-decoration: underline;
+}
+
+.cv-paper section {
+  margin-bottom: 18px;
+}
+
+.cv-paper h2 {
+  font-size: 17px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1.5px solid #111;
+  margin-bottom: 6px;
+}
+
+.cv-paper h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cv-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 16px;
+}
+
+.cv-job {
+  margin-bottom: 16px;
+}
+
+.cv-paper ul {
+  list-style: disc;
+  padding-left: 40px;
+  margin-top: 8px;
+}
+
+.cv-paper ul ul {
+  list-style: circle;
+  margin-top: 0;
+}
+
+.cv-download {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  transition: background 0.2s;
+}
+
+.cv-download:hover {
+  background: #1155cc;
+}
+
+.cv-download:focus-visible {
+  outline: 2px solid #1155cc;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .cv {
+    padding: 0 0 100px;
+  }
+
+  .cv-paper {
+    padding: 28px 18px;
+    font-size: 15px;
+    box-shadow: none;
+  }
+
+  .cv-paper ul {
+    padding-left: 22px;
+  }
+}
+
+@media print {
+  .cv,
+  .cv-paper {
+    padding: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .cv-download {
+    display: none;
+  }
+}
