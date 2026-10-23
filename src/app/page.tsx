@@ -5,8 +5,8 @@ import { buildProfile, type RemoteExperience, type RemoteSkillGroup } from "@/da
 async function getData(): Promise<{ experiences: RemoteExperience[]; skills: RemoteSkillGroup[] }> {
   try {
     const [expRes, skillRes] = await Promise.all([
-      fetch(`${DATA_BASE}/experience.json`, { next: { revalidate: 3600 } }),
-      fetch(`${DATA_BASE}/skills.json`, { next: { revalidate: 3600 } }),
+      fetch(`${DATA_BASE}/experience.json`, { next: { revalidate: 300 } }),
+      fetch(`${DATA_BASE}/skills.json`, { next: { revalidate: 300 } }),
     ]);
 
     if (!expRes.ok || !skillRes.ok) {

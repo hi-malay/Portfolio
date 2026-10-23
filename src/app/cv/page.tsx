@@ -12,7 +12,7 @@ const profile = (platform: string) => social.find((s) => s.platform === platform
 const bold = (text: string) => text.split("**").map((part, i) => (i % 2 ? <b key={i}>{part}</b> : part));
 
 async function getExperience(): Promise<RemoteExperience[]> {
-	const res = await fetch(`${DATA_BASE}/experience.json`, { next: { revalidate: 3600 } });
+	const res = await fetch(`${DATA_BASE}/experience.json`, { next: { revalidate: 300 } });
 	// Throw rather than render an empty CV: on revalidation, Next keeps serving the last good page.
 	if (!res.ok) throw new Error(`experience.json responded ${res.status}`);
 	return res.json();
