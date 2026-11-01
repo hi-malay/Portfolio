@@ -52,7 +52,7 @@ export interface FocusItem {
 
 const personal = {
 	about:
-		"Fullstack Engineer with 5+ years building high-performance systems. Delivered sub-second APIs, led major frontend revamps, and shipped AI-driven features. Passionate about performance, clean architecture, and mentoring engineers.",
+		"Fullstack Engineer with 5+ years building high-performance systems.",
 	currentRole: "Fullstack Engineer",
 	displayEmail: EMAIL,
 	emails: [EMAIL],
@@ -60,7 +60,7 @@ const personal = {
 	location: { city: "Bengaluru, Karnataka", country: "India", country_code: "IN", full: "Bengaluru, Karnataka, India" },
 	name: "Malay Mishra",
 	resume: RESUME,
-	tagline: "Building resilient systems that stay fast under load — from sub-second Go services to micro-frontends that ship without drama.",
+	tagline: "Building resilient systems that stay fast under load - from sub-second Go services to micro-frontends that ship without drama.",
 	title: "Engineer | Architect | Creator",
 	website: "malaymishra.com",
 };
