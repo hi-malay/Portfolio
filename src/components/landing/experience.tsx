@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText);
 const EASE = "power3.out";
 const EASE_LONG = "expo.out";
 
-function revealChars(el: HTMLElement, trigger = true) {
+function revealChars(el: HTMLElement) {
 	const split = SplitText.create(el, { autoSplit: true, charsClass: "roll-char", linesClass: "split-line", mask: "lines", type: "lines,chars" });
 	const stagger = (i: number, target: Element) => {
 		const line = split.lines.findIndex((l) => l.contains(target));
@@ -22,7 +22,7 @@ function revealChars(el: HTMLElement, trigger = true) {
 	return gsap.from(split.chars, {
 		duration: 1.4,
 		ease: EASE_LONG,
-		scrollTrigger: trigger ? { start: "top 82%", trigger: el } : undefined,
+		scrollTrigger: { start: "top 82%", trigger: el },
 		stagger,
 		yPercent: 118,
 	});
@@ -181,10 +181,75 @@ function bindProgress(scene: ParticleScene, smoother: ScrollSmoother | null, sig
 	signal.addEventListener("abort", () => gsap.ticker.remove(tick));
 }
 
-function playIntro(reduced: boolean, scene: ParticleScene, onDone: () => void) {
+// Per-char splitting breaks Devanagari conjuncts (and any non-Latin shaping),
+// so only Latin text rolls char by char; the rest rolls as whole words.
+const LATIN_ONLY = /^[\p{Script=Latin}\p{P}\s]*$/u;
+
+function splitWord(el: HTMLElement) {
+	const latin = LATIN_ONLY.test(el.textContent ?? "");
+	const split = SplitText.create(el, { aria: "none", charsClass: "roll-char", type: latin ? "chars" : "words", wordsClass: "roll-char" });
+	return latin ? split.chars : split.words;
+}
+
+function rollIn(el: HTMLElement) {
+	return gsap.from(splitWord(el), { duration: 2, ease: EASE_LONG, rotate: 9, stagger: 0.07, transformOrigin: "0% 100%", yPercent: 130 });
+}
+
+// iPhone-style hello: every 3s the greeting rolls up out of its clipped line as
+// the next one rolls in. Starts from a timeline callback, i.e. outside the
+// gsap.context, so it cleans up through the abort signal instead.
+function cycleGreeting(line: HTMLElement, greetings: string[], signal: AbortSignal) {
+	let current = line.querySelector<HTMLElement>(".hero-word");
+	let index = 0;
+	let anim: gsap.core.Animation | null = null;
+	const next = () => {
+		const prev = current;
+		if (!prev) return;
+		index = (index + 1) % greetings.length;
+		const word = document.createElement("span");
+		word.className = "hero-word";
+		word.textContent = greetings[index] ?? "";
+		line.append(word);
+		current = word;
+		const out = prev.querySelectorAll(".roll-char");
+		anim = gsap
+			.timeline({
+				onComplete: () => {
+					prev.remove();
+					anim = gsap.delayedCall(3, next);
+				},
+			})
+			.to(out, { duration: 0.2, ease: "power1.out", stagger: 0.05, yPercent: 8 })
+			.to(out, { duration: 0.95, ease: "power4.inOut", rotate: -6, stagger: 0.05, transformOrigin: "0% 0%", yPercent: -118 }, 0.2)
+			.from(splitWord(word), { duration: 0.95, ease: "power4.inOut", rotate: 6, stagger: 0.05, transformOrigin: "0% 100%", yPercent: 118 }, 0.2);
+	};
+	// Fetch the Devanagari face now so नमस्ते doesn't swap fonts mid-roll.
+	const nonLatin = greetings.filter((g) => !LATIN_ONLY.test(g)).join("");
+	document.fonts.load(`1em ${getComputedStyle(line).fontFamily}`, nonLatin).catch(() => undefined);
+	anim = gsap.delayedCall(3, next);
+	// Paused while the hero is scrolled out of view.
+	const trigger = ScrollTrigger.create({
+		end: "bottom top",
+		onToggle: ({ isActive }) => (isActive ? anim?.play() : anim?.pause()),
+		start: "top bottom",
+		trigger: line,
+	});
+	signal.addEventListener(
+		"abort",
+		() => {
+			anim?.kill();
+			trigger.kill();
+		},
+		{ once: true }
+	);
+}
+
+function playIntro(reduced: boolean, scene: ParticleScene, greetings: string[], signal: AbortSignal, onDone: () => void) {
 	const loader = document.querySelector<HTMLElement>("#loader");
 	const heroBits = gsap.utils.toArray<HTMLElement>("[data-hero-fade]");
-	const headline = document.querySelector<HTMLElement>("[data-hero-headline]");
+	const greet = document.querySelector<HTMLElement>("[data-hero-greet]");
+	const greetWord = greet?.querySelector<HTMLElement>(".hero-word");
+	const headline = document.querySelector<HTMLElement>("[data-hero-headline] .hero-word");
 
 	if (reduced) {
 		loader?.remove();
@@ -226,8 +291,12 @@ function playIntro(reduced: boolean, scene: ParticleScene, onDone: () => void) {
 	} else {
 		tl.call(() => scene.enter());
 	}
-	if (headline) tl.add(revealChars(headline, false), loader ? "-=0.4" : 0);
-	tl.from(heroBits, { duration: 1, ease: EASE, opacity: 0, stagger: 0.09, y: 28 }, "-=1.1").call(onDone);
+	if (greetWord) tl.add(rollIn(greetWord), loader ? "-=0.4" : 0);
+	if (headline) tl.add(rollIn(headline), "<0.35");
+	// The 2s expo rolls look done long before they end, so the fade and the
+	// scroll unlock key off the roll's start, same beat as before.
+	tl.from(heroBits, { duration: 1, ease: EASE, opacity: 0, stagger: 0.09, y: 28 }, "<0.05").call(onDone, undefined, ">");
+	if (greet && greetings.length > 1) tl.call(() => cycleGreeting(greet, greetings, signal));
 }
 
 function bindNavState() {
@@ -257,7 +326,7 @@ function bindScrollEffects(signal: AbortSignal) {
 	for (const el of gsap.utils.toArray<HTMLElement>("[data-roll]")) letterBounce(el, signal);
 }
 
-export default function Experience() {
+export default function Experience({ greetings }: { greetings: string[] }) {
 	useEffect(() => {
 		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const scene = new ParticleScene();
@@ -270,7 +339,7 @@ export default function Experience() {
 				smoother = ScrollSmoother.create({ content: "#smooth-content", effects: false, smooth: 0.75, wrapper: "#smooth-wrapper" });
 				smoother.paused(true);
 			}
-			playIntro(reduced, scene, () => {
+			playIntro(reduced, scene, greetings, aborter.signal, () => {
 				smoother?.paused(false);
 				jumpToHash();
 			});
@@ -298,7 +367,7 @@ export default function Experience() {
 			smoother?.kill();
 			scene.dispose();
 		};
-	}, []);
+	}, [greetings]);
 
 	return null;
 }
