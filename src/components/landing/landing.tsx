@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import type { TProfile } from "@/data/profile";
-import { interTight } from "@/utils/helper/font-helper";
+import { devanagari, interTight } from "@/utils/helper/font-helper";
 
 import Experience from "./experience";
 import Nav from "./nav";
@@ -17,6 +17,8 @@ const NAV_LINKS = [
 	{ href: "#focus", label: "Focus", section: "focus" },
 	{ href: "#contact", label: "Contact", section: "contact" },
 ];
+
+const GREETINGS = ["Hey !", "नमस्ते।", "Hi !", "Hola !", "Hello !", "Ciao !"];
 
 const firstBullet = (text?: string) =>
 	(text ?? "")
@@ -91,7 +93,7 @@ export default function Landing({ profile }: LandingProps) {
 	} = derive(profile);
 
 	return (
-		<div className={`landing ${interTight.variable}`}>
+		<div className={`landing ${interTight.variable} ${devanagari.variable}`}>
 			<div aria-hidden="true" className="loader" id="loader">
 				<div className="loader-spinner">
 					{/* next/image so the 1.6MB source is served resized and in a modern
@@ -123,10 +125,15 @@ export default function Landing({ profile }: LandingProps) {
 						    fixed header. */}
 						<section className="section" data-stage id="hero">
 							<div className="w-full">
-								<h1 className="t-hero max-w-[9em]" data-hero-headline>
-									{firstName}
-									<br />
-									{lastName}.
+								<h1 className="t-hero">
+									<span aria-hidden="true" className="hero-line" data-hero-greet>
+										<span className="hero-word">{GREETINGS[0]}</span>
+									</span>
+									<span aria-hidden="true" className="hero-line" data-hero-headline>
+										<span className="hero-word">I&apos;m {firstName}</span>
+									</span>
+									{/* The lines above get split per char and keep changing, which screen readers mangle. */}
+									<span className="sr-only">{`${GREETINGS[0]} I'm ${firstName} ${lastName}`}</span>
 								</h1>
 								<div className="mt-6 max-w-140">
 									<p className="t-kicker" data-hero-fade>
@@ -268,7 +275,7 @@ export default function Landing({ profile }: LandingProps) {
 					</main>
 				</div>
 			</div>
-			<Experience />
+			<Experience greetings={GREETINGS} />
 		</div>
 	);
 }

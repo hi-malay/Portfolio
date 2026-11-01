@@ -35,7 +35,7 @@
     --amber: oklch(83.2% 0.156 79);
     --hover-green: oklch(52.4% 0.086 174);
     position: relative;
-    font-family: var(--font-inter-tight), system-ui, sans-serif;
+    font-family: var(--font-inter-tight), var(--font-devanagari), system-ui, sans-serif;
     font-weight: 200;
     -webkit-font-smoothing: antialiased;
     color: var(--ink);
@@ -141,6 +141,27 @@
     .t-hero {
       font-size: 6.5rem;
     }
+  }
+
+  /* One-cell grid clipped on y: the cycling greeting stacks old and new word
+	 * in the same cell and rolls them through the clip. 1.3em so descenders
+	 * and Devanagari matras don't get cut. */
+  .hero-line {
+    display: grid;
+    height: 1.3em;
+    overflow: visible clip;
+    line-height: 1.3;
+  }
+
+  /* Pulls the lines back to .t-hero's 1.02 rhythm. */
+  .hero-line + .hero-line {
+    margin-top: -0.28em;
+  }
+
+  .hero-word {
+    grid-area: 1 / 1;
+    justify-self: start;
+    white-space: nowrap;
   }
 
   .t-section {
