@@ -195,7 +195,7 @@ function rollIn(el: HTMLElement) {
 	return gsap.from(splitWord(el), { duration: 2, ease: EASE_LONG, rotate: 9, stagger: 0.07, transformOrigin: "0% 100%", yPercent: 130 });
 }
 
-// iPhone-style hello: every 3s the greeting rolls up out of its clipped line as
+// iPhone-style hello: every 1.3s the greeting rolls up out of its clipped line as
 // the next one rolls in. Starts from a timeline callback, i.e. outside the
 // gsap.context, so it cleans up through the abort signal instead.
 function cycleGreeting(line: HTMLElement, greetings: string[], signal: AbortSignal) {
@@ -216,7 +216,7 @@ function cycleGreeting(line: HTMLElement, greetings: string[], signal: AbortSign
 			.timeline({
 				onComplete: () => {
 					prev.remove();
-					anim = gsap.delayedCall(3, next);
+					anim = gsap.delayedCall(1.3, next);
 				},
 			})
 			.to(out, { duration: 0.2, ease: "power1.out", stagger: 0.05, yPercent: 8 })
@@ -226,7 +226,7 @@ function cycleGreeting(line: HTMLElement, greetings: string[], signal: AbortSign
 	// Fetch the Devanagari face now so नमस्ते doesn't swap fonts mid-roll.
 	const nonLatin = greetings.filter((g) => !LATIN_ONLY.test(g)).join("");
 	document.fonts.load(`1em ${getComputedStyle(line).fontFamily}`, nonLatin).catch(() => undefined);
-	anim = gsap.delayedCall(3, next);
+	anim = gsap.delayedCall(1.3, next);
 	// Paused while the hero is scrolled out of view.
 	const trigger = ScrollTrigger.create({
 		end: "bottom top",
