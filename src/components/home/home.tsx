@@ -2,10 +2,11 @@ import Image from "next/image";
 
 import type { TProfile } from "@/data/profile";
 import { projects } from "@/data/projects";
-import { spaceGrotesk } from "@/utils/helper/font-helper";
+import { devanagari, spaceGrotesk } from "@/utils/helper/font-helper";
 
 import { ContactForm, CopyEmail } from "./contact";
 import Crowd from "./crowd";
+import Greeting from "./greeting";
 import Header from "./header";
 import HeroMotion from "./hero-motion";
 import { ArrowUp, ArrowUpRight, Brand, brandLabel } from "./icons";
@@ -29,6 +30,8 @@ const firstBullet = (text: string) =>
 const clip = (text: string, max: number) => (text.length > max ? `${text.slice(0, text.lastIndexOf(" ", max)).trimEnd()}…` : text);
 
 const BOLD = /(resilient systems|sub-second Go services|micro-frontends)/;
+
+const GREETINGS = ["Hey !", "नमस्ते।", "Hi !", "Hola !", "Hello !", "Ciao !"];
 
 const Chevron = ({ right }: { right?: boolean }) => {
 	const d = right ? "M14 12 46 50 14 88" : "M46 12 14 50 46 88";
@@ -88,7 +91,7 @@ export default function Home({ profile }: { profile: TProfile }) {
 	);
 
 	return (
-		<div className={`home ${spaceGrotesk.variable}`}>
+		<div className={`home ${spaceGrotesk.variable} ${devanagari.variable}`}>
 			<a className="skip-link" href="#main">
 				Skip to content
 			</a>
@@ -125,9 +128,11 @@ export default function Home({ profile }: { profile: TProfile }) {
 					<div className="bio wrap" id="biography">
 						<div className="bio-left">
 							<h2 className="bio-hi">
-								Hi, I&apos;m{" "}
-								<br />
-								{firstName}.
+								<span className="sr-only">{`Hi, I'm ${firstName}.`}</span>
+								<Greeting words={GREETINGS} />
+								<span aria-hidden="true" className="greet-rest">
+									I&apos;m {firstName}.
+								</span>
 							</h2>
 							<p className="bio-role">{titleLine}</p>
 							<hr />

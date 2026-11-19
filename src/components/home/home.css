@@ -35,7 +35,7 @@ html:has(.home) body {
 }
 
 .home {
-	font-family: var(--font-space-grotesk), Arial, sans-serif;
+	font-family: var(--font-space-grotesk), var(--font-devanagari), Arial, sans-serif;
 	letter-spacing: -0.015em;
 	background: var(--canvas);
 	color: var(--ink);
@@ -711,6 +711,27 @@ html[data-theme="dark"] .icon-sun {
 	font-weight: 700;
 	line-height: 0.98;
 	letter-spacing: -0.04em;
+}
+
+/* One-cell grid clipped on y: the old and new greeting share the cell and roll
+   through the clip. 1.3em tall so descenders and Devanagari matras aren't cut. */
+.greet-line {
+	display: grid;
+	height: 1.3em;
+	overflow: visible clip;
+	line-height: 1.3;
+}
+
+.greet-word {
+	grid-area: 1 / 1;
+	justify-self: start;
+	white-space: nowrap;
+}
+
+/* Pulls the second line back up to the heading's tight rhythm. */
+.greet-rest {
+	display: block;
+	margin-top: -0.3em;
 }
 
 .bio-role {
@@ -1726,10 +1747,6 @@ html[data-theme="dark"] .icon-sun {
 
 	.bio-hi {
 		font-size: clamp(56px, 12vw, 76px);
-	}
-
-	.bio-hi br {
-		display: none;
 	}
 
 	.bio-role {
