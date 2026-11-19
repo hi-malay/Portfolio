@@ -1,4 +1,12 @@
-import { EB_Garamond, Inter_Tight, Noto_Sans_Devanagari, Outfit } from "next/font/google";
+import { EB_Garamond, Inter_Tight, Noto_Sans_Devanagari, Outfit, Space_Grotesk } from "next/font/google";
+
+// Only face on the home page.
+export const spaceGrotesk = Space_Grotesk({
+	display: "swap",
+	subsets: ["latin"],
+	variable: "--font-space-grotesk",
+	weight: "variable",
+});
 
 // Serif used by the /cv page, matches the PDF resume.
 export const ebGaramond = EB_Garamond({

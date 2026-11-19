@@ -81,8 +81,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: the script below sets data-theme before React hydrates.
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script
+          // Runs before paint so a saved dark theme doesn't flash light first.
+          dangerouslySetInnerHTML={{
+            __html: "try{if(localStorage.getItem('theme')==='dark')document.documentElement.dataset.theme='dark'}catch(e){}",
+          }}
+        />
         <Schema />
       </head>
       <body className="antialiased">

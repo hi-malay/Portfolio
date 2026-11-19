@@ -1,4 +1,4 @@
-import Landing from "@/components/landing/landing";
+import Home from "@/components/home/home";
 import { DATA_BASE } from "@/data/links";
 import { buildProfile, type RemoteExperience, type RemoteSkillGroup } from "@/data/profile";
 
@@ -29,5 +29,5 @@ async function getData(): Promise<{ experiences: RemoteExperience[]; skills: Rem
 export default async function Page() {
   const { experiences, skills } = await getData();
 
-  return <Landing profile={buildProfile(experiences, skills)} />;
+  return <Home profile={buildProfile(experiences, skills)} />;
 }
