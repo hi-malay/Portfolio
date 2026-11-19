@@ -11,7 +11,7 @@ const CAST = COLS * ROWS;
 // Full-body standing illustration (transparent PNG, ~375×1400). Drawn feet-down in the middle, like a portrait.
 const ME_IMAGE = "/footer/me-standing.png";
 // Fractions of ME_IMAGE's height: legs band [from, to] (below the hands, above the shoes) and its stretch.
-const LEGS = [0.69, 0.84, 1.7] as const;
+const LEGS = [0.69, 0.84, 1] as const;
 
 // Deterministic 0..1 noise, so every visit shows the same crowd.
 const hash = (n: number) => {
