@@ -10,6 +10,8 @@ const ROWS = 7;
 const CAST = COLS * ROWS;
 // Full-body standing illustration (transparent PNG, ~375×1400). Drawn feet-down in the middle, like a portrait.
 const ME_IMAGE = "/footer/me-standing.png";
+// Fractions of ME_IMAGE's height: legs band [from, to] (below the hands, above the shoes) and its stretch.
+const LEGS = [0.69, 0.84, 1.7] as const;
 
 // Deterministic 0..1 noise, so every visit shows the same crowd.
 const hash = (n: number) => {
@@ -97,9 +99,20 @@ export default function Crowd({ name }: { name: string }) {
 			// Back canvas sits under front canvas, so drawing "me" last here puts me between the rows.
 			if (meReady) {
 				// A head taller than the back row, so walkers cross my body but rarely my face.
-				const h = Math.min(H - 16, portrait * 1.12);
-				const w = (h * meImg.naturalWidth) / meImg.naturalHeight;
-				back.drawImage(meImg, W / 2 - w / 2, H - 12 - h, w, h);
+				const h = Math.min(H - 10, portrait * 1.2);
+				const nw = meImg.naturalWidth;
+				const nh = meImg.naturalHeight;
+				// The illustration's legs are short, so the band between hands and shoes is drawn stretched.
+				const a = nh * LEGS[0];
+				const b = nh * LEGS[1];
+				const s = h / (nh + (b - a) * (LEGS[2] - 1));
+				const w = nw * s;
+				const x = W / 2 - w / 2;
+				const y = H - 6 - h;
+				const mid = (b - a) * s * LEGS[2];
+				back.drawImage(meImg, 0, 0, nw, a, x, y, w, a * s + 0.5);
+				back.drawImage(meImg, 0, a, nw, b - a, x, y + a * s, w, mid + 0.5);
+				back.drawImage(meImg, 0, b, nw, nh - b, x, y + a * s + mid, w, (nh - b) * s);
 			}
 		};
 
