@@ -1,5 +1,6 @@
 "use client";
 
+import { track as trackEvent } from "@vercel/analytics";
 import { useEffect, useRef, useState } from "react";
 
 // 15×7 sheet of 105 people built from Open Peeps parts (Pablo Stanley, CC0, openpeeps.com),
@@ -196,6 +197,16 @@ export default function Crowd({ name }: { name: string }) {
 			{ rootMargin: "600px" },
 		);
 		io.observe(el);
+		// The preload observer above fires 600px early, so "reached the footer" gets its own: half the crowd on screen, once per visit.
+		const reached = new IntersectionObserver(
+			([entry]) => {
+				if (!entry.isIntersecting) return;
+				trackEvent("footer_reached");
+				reached.disconnect();
+			},
+			{ threshold: 0.5 },
+		);
+		reached.observe(el);
 		const ro = new ResizeObserver(layout);
 		ro.observe(el);
 		document.addEventListener("visibilitychange", sync);
@@ -205,6 +216,7 @@ export default function Crowd({ name }: { name: string }) {
 			alive = false;
 			cancelAnimationFrame(raf);
 			io.disconnect();
+			reached.disconnect();
 			ro.disconnect();
 			document.removeEventListener("visibilitychange", sync);
 			reduced.removeEventListener("change", sync);
