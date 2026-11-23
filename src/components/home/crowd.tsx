@@ -165,7 +165,8 @@ export default function Crowd({ name }: { name: string }) {
 					// Every third back-row walker passes in front of me too.
 					layer: row || j % 3 === 0 ? 1 : 0,
 					phase: (j + 0.85 * hash(i + 41)) / rows[row],
-					speed: [0.7, 1.05][row] * (0.88 + 0.24 * hash(i + 97)),
+					// Back row (left→right) hurries, front row (right→left) strolls.
+					speed: [1.15, 0.55][row] * (0.88 + 0.24 * hash(i + 97)),
 					top: row ? H - ph + 30 * s + 15 * hash(i + 4) : H - portrait - 12 + 24 * hash(i + 4),
 					w: ph * aspect,
 				};
