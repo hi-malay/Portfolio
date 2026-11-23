@@ -34,6 +34,8 @@ export default function HeroMotion() {
 
 		const ctx = gsap.context(() => {
 			gsap.set(photo, { autoAlpha: 1, transformPerspective: 1000 });
+			// Hand over from the static hero copy (same spot, same size) to the animated photo.
+			gsap.set(from, { autoAlpha: 0 });
 			gsap
 				.timeline({ scrollTrigger: { end: "center center", endTrigger: slot, invalidateOnRefresh: true, scrub: 0.6, start: "top top", trigger: ".hero" } })
 				.fromTo(photo, { scale: () => delta().s, x: () => delta().x, y: () => delta().y }, { duration: 1, ease: "none", scale: 1, x: 0, y: 0 }, 0)

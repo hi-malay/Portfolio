@@ -665,6 +665,9 @@ html[data-theme="dark"] .icon-sun {
 	bottom: 4svh;
 	width: clamp(150px, 15.7vw, 260px);
 	aspect-ratio: 373 / 401;
+	overflow: hidden;
+	border-radius: 14px;
+	box-shadow: 0 16px 40px -22px rgb(20 20 20 / 0.3);
 	transform: translateX(-50%);
 }
 
@@ -773,7 +776,8 @@ html[data-theme="dark"] .icon-sun {
 	will-change: transform;
 }
 
-.bio-photo img {
+.bio-photo img,
+.hero-photo-slot img {
 	object-fit: cover;
 	/* Card crops top/bottom; bias low so it frames me, not the wall above. */
 	object-position: 50% 65%;
@@ -968,8 +972,9 @@ html[data-theme="dark"] .icon-sun {
 	padding: 0 24px 28px;
 	border: 1px solid var(--line);
 	border-radius: 4px 16px 16px;
-	background: var(--surface);
-	backdrop-filter: blur(12px);
+	/* Frosted glass: the papers inside show through, blurred. */
+	background: color-mix(in srgb, var(--surface) 38%, transparent);
+	backdrop-filter: blur(6px);
 	box-shadow: 0 18px 25px -20px rgb(0 0 0 / 0.53);
 	transform-origin: bottom;
 	transition: transform 0.45s var(--ease), background-color 0.45s;
@@ -986,7 +991,8 @@ html[data-theme="dark"] .icon-sun {
 	border: 1px solid var(--line);
 	border-bottom: 0;
 	border-radius: 12px 12px 0 0;
-	background: var(--surface);
+	background: color-mix(in srgb, var(--surface) 38%, transparent);
+	backdrop-filter: blur(6px);
 }
 
 .folder-title {
@@ -1977,6 +1983,11 @@ html[data-theme="dark"] .icon-sun {
 	.bio-photo {
 		opacity: 1;
 		visibility: visible;
+	}
+
+	/* No fly-in, so the photo just sits in the bio. */
+	.hero-photo-slot img {
+		display: none;
 	}
 
 	.timeline-wave {

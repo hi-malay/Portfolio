@@ -116,7 +116,10 @@ export default function Home({ profile }: { profile: TProfile }) {
 								<Chevron right />
 							</span>
 						</h1>
-						<div aria-hidden="true" className="hero-photo-slot" />
+						{/* Plain copy so the photo shows before JS; hero-motion swaps in the animated one. Same src+sizes = one download. */}
+						<div aria-hidden="true" className="hero-photo-slot">
+							<Image alt="" fill preload sizes="(max-width: 860px) 80vw, 400px" src="/malay.jpg" />
+						</div>
 						<div className="hero-meta hero-fade">
 							<span className="hero-year">©{year}</span>
 							<span className="hero-sub">
@@ -147,7 +150,7 @@ export default function Home({ profile }: { profile: TProfile }) {
 						</div>
 						<div className="bio-photo-slot">
 							<div className="bio-photo">
-								<Image alt={`Portrait of ${name}`} fill preload sizes="(max-width: 860px) 80vw, 400px" src="/malay.jpg" />
+								<Image alt={`Portrait of ${name}`} fill loading="eager" sizes="(max-width: 860px) 80vw, 400px" src="/malay.jpg" />
 							</div>
 						</div>
 						<div className="bio-right">
